@@ -23,11 +23,11 @@ const welcomeScreen = () => {
         }}
         source={require("../assets/images/green-logo.png")}
       />
-      <View style={{ marginHorizontal: "auto" }}>
-        <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+      <View style={{ marginHorizontal: "auto", gap: 5 }}>
+        <Text style={{ fontSize: 22, fontWeight: "bold" }}>
           Let's Get Started
         </Text>
-        <Text style={{ color: "#616161", fontSize: 12 }}>
+        <Text style={{ color: "#616161", fontSize: 12, marginHorizontal: "auto" }}>
           Let's dive into your account
         </Text>
       </View>
