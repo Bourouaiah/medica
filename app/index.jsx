@@ -1,10 +1,13 @@
-import { View, Text, StatusBar, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { StatusBar } from "expo-status-bar";
 
 const welcomeScreen = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView
       style={{
@@ -13,7 +16,7 @@ const welcomeScreen = () => {
         backgroundColor: "#fff",
       }}
     >
-      <StatusBar barStyle="dark-content" backgroundColor={"#000000"} />
+      <StatusBar style="dark" />
       <Image
         style={{
           width: 50,
@@ -27,7 +30,9 @@ const welcomeScreen = () => {
         <Text style={{ fontSize: 22, fontWeight: "bold" }}>
           Let's Get Started
         </Text>
-        <Text style={{ color: "#616161", fontSize: 12, marginHorizontal: "auto" }}>
+        <Text
+          style={{ color: "#616161", fontSize: 12, marginHorizontal: "auto" }}
+        >
           Let's dive into your account
         </Text>
       </View>
@@ -112,6 +117,7 @@ const welcomeScreen = () => {
             padding: 10,
             borderRadius: 20,
           }}
+          onPress={() => navigation.navigate("SignUp")}
         >
           <Text
             style={{
@@ -125,11 +131,12 @@ const welcomeScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            backgroundColor: "#FAFAFA",
+            backgroundColor: "#EBF8F3",
             marginHorizontal: 50,
             padding: 10,
             borderRadius: 20,
           }}
+          onPress={() => navigation.navigate("Login")}
         >
           <Text
             style={{
@@ -149,7 +156,7 @@ const welcomeScreen = () => {
           justifyContent: "center",
           color: "#616161",
           gap: 10,
-          marginTop: 50
+          marginTop: 50,
         }}
       >
         <Text>Privacy Ploicy</Text>
