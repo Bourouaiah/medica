@@ -15,9 +15,10 @@ import {
   MaterialIcons,
   FontAwesome,
 } from "@expo/vector-icons";
+import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
 
-const SignUp = () => {
+const Login = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView
@@ -36,10 +37,10 @@ const SignUp = () => {
         </TouchableOpacity>
         <View style={{ marginTop: 30, gap: 5 }}>
           <Text style={{ fontSize: 24, fontWeight: "bold", color: "#212121" }}>
-            Join Plantify Today 👤
+            Welcome Back! 👋
           </Text>
           <Text style={{ color: "#767676", fontSize: 14, fontWeight: "light" }}>
-            Create Your Blooming Account
+            Let's Continue Your Green Journey
           </Text>
         </View>
         <View style={{ marginTop: 20, gap: 20 }}>
@@ -98,15 +99,22 @@ const SignUp = () => {
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "space-around",
             alignItems: "center",
             gap: 5,
             marginTop: 20,
           }}
         >
-          <Text style={{ color: "#212121" }}>Already have an account?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "#05AA6D", fontWeight: "bold" }}>Log in</Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
+            <Checkbox value={false} color={true ? "#00A86B" : undefined} />
+            <Text style={{ color: "#212121", fontWeight: "bold" }}>
+              Remember me
+            </Text>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("forgotPassword")}>
+            <Text style={{ color: "#05AA6D", fontWeight: "bold" }}>
+              Forget Password?
+            </Text>
           </TouchableOpacity>
         </View>
         <Text
@@ -198,6 +206,7 @@ const SignUp = () => {
             padding: 10,
             borderRadius: 20,
           }}
+          onPress={() => navigation.navigate("(tabs)")}
         >
           <Text
             style={{
@@ -206,7 +215,7 @@ const SignUp = () => {
               fontWeight: "bold",
             }}
           >
-            Sign up
+            Log in
           </Text>
         </TouchableOpacity>
       </ScrollView>
@@ -214,4 +223,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
