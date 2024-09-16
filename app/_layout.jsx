@@ -18,6 +18,7 @@ export default function RootLayout() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="accountSetUp" options={{ headerShown: false }} />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </Provider>
   );

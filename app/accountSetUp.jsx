@@ -5,6 +5,7 @@ import {
   StatusBar,
   Image,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
@@ -17,6 +18,11 @@ import { useSelector } from "react-redux";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 
+import { auth, db } from "../firebase";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import Toast from "react-native-toast-message";
+
 const accountSetUp = () => {
   const currentUserData = useSelector((state) => state.user);
   const navigation = useNavigation();
@@ -24,6 +30,7 @@ const accountSetUp = () => {
   const [name, setName] = useState("");
   const [profilePicture, setProfilePicture] = useState(null);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (currentUserData?.email) {
@@ -32,7 +39,6 @@ const accountSetUp = () => {
   }, [currentUserData]);
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -42,6 +48,47 @@ const accountSetUp = () => {
 
     if (!result.canceled) {
       setProfilePicture(result.assets[0].uri);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (name == "") {
+      Toast.show({
+        position: "bottom",
+        type: "error",
+        text1: "Error!",
+        text2: "Please fill in the required data!",
+      });
+    } else {
+      setLoading(true);
+      createUserWithEmailAndPassword(auth, email, currentUserData?.password)
+        .then((userCredential) => {
+          return addDoc(collection(db, "users"), {
+            name,
+            email,
+            profilePicture,
+          });
+        })
+        .then((userDocRef) => {
+          const userId = userDocRef.id;
+
+          return updateDoc(doc(db, "users", userId), {
+            userId: userId,
+          });
+        })
+        .then(() => {
+          navigation.navigate("(tabs)");
+        })
+        .catch((error) => {
+          console.log(error)
+          setLoading(false);
+          Toast.show({
+            position: "bottom",
+            type: "error",
+            text1: "Error!",
+            text2: "Something went wrong, please try again!",
+          });
+        });
     }
   };
 
@@ -145,17 +192,24 @@ const accountSetUp = () => {
           borderRadius: 20,
           marginTop: 80,
         }}
+        onPress={handleSubmit}
+        disabled={loading}
       >
-        <Text
-          style={{
-            textAlign: "center",
-            color: "#ffffff",
-            fontWeight: "bold",
-          }}
-        >
-          Continue
-        </Text>
+        {loading ? (
+          <ActivityIndicator size="small" color="#ffffff" />
+        ) : (
+          <Text
+            style={{
+              textAlign: "center",
+              color: "#ffffff",
+              fontWeight: "bold",
+            }}
+          >
+            Continue
+          </Text>
+        )}
       </TouchableOpacity>
+      <Toast />
     </SafeAreaView>
   );
 };

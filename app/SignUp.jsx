@@ -98,6 +98,7 @@ const SignUp = () => {
                 value={email}
                 onChangeText={(value) => setEmail(value)}
                 placeholderTextColor="#9E9E9F"
+                autoCapitalize="none"
               />
             </View>
           </View>
