@@ -32,7 +32,7 @@ const Login = () => {
     >
       <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={"always"}>
         <StatusBar barStyle="dark-content" />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
         <View style={{ marginTop: 30, gap: 5 }}>
@@ -40,7 +40,7 @@ const Login = () => {
             Welcome Back! 👋
           </Text>
           <Text style={{ color: "#767676", fontSize: 14, fontWeight: "light" }}>
-            Let's Continue Your Green Journey
+            Let's see new cars today.
           </Text>
         </View>
         <View style={{ marginTop: 20, gap: 20 }}>
@@ -106,13 +106,13 @@ const Login = () => {
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <Checkbox value={false} color={true ? "#00A86B" : undefined} />
+            <Checkbox value={false} color={true ? "#101010" : undefined} />
             <Text style={{ color: "#212121", fontWeight: "bold" }}>
               Remember me
             </Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate("forgotPassword")}>
-            <Text style={{ color: "#05AA6D", fontWeight: "bold" }}>
+            <Text style={{ color: "#101010", fontWeight: "bold" }}>
               Forget Password?
             </Text>
           </TouchableOpacity>
@@ -148,7 +148,7 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="google" size={24} color="#00A86B" />
+            <AntDesign name="google" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Google</Text>
           </View>
           <View
@@ -164,7 +164,7 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="apple1" size={24} color="#00A86B" />
+            <AntDesign name="apple1" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Apple</Text>
           </View>
           <View
@@ -180,7 +180,7 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="facebook-square" size={24} color="#00A86B" />
+            <AntDesign name="facebook-square" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Facebook</Text>
           </View>
           <View
@@ -196,17 +196,17 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="twitter" size={24} color="#00A86B" />
+            <AntDesign name="twitter" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Twitter</Text>
           </View>
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: "#00A86B",
+            backgroundColor: "#101010",
             padding: 10,
             borderRadius: 20,
           }}
-          onPress={() => navigation.navigate("(tabs)")}
+          onPress={() => navigation.navigate("Home")}
         >
           <Text
             style={{

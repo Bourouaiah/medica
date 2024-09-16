@@ -6,7 +6,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
@@ -16,9 +16,37 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+
+import { getCurrentUserData } from "../src/user/userSlice";
+import Toast from "react-native-toast-message";
 
 const SignUp = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const handleSignUp = () => {
+    if (email == "" || password == "") {
+      Toast.show({
+        position: "bottom",
+        type: "error",
+        text1: "Error!",
+        text2: "Please fill in the required data!",
+      });
+    } else {
+      dispatch(getCurrentUserData({ email, password }));
+      navigation.navigate("accountSetUp");
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -29,14 +57,17 @@ const SignUp = () => {
         paddingVertical: 10,
       }}
     >
-      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={"always"}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={"always"}
+      >
         <StatusBar barStyle="dark-content" />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </TouchableOpacity>
         <View style={{ marginTop: 30, gap: 5 }}>
           <Text style={{ fontSize: 24, fontWeight: "bold", color: "#212121" }}>
-            Join Plantify Today 👤
+            Join Carea Today 👤
           </Text>
           <Text style={{ color: "#767676", fontSize: 14, fontWeight: "light" }}>
             Create Your Blooming Account
@@ -64,6 +95,8 @@ const SignUp = () => {
                 style={{ color: "#212121", flex: 1 }}
                 keyboardType="email-address"
                 placeholder="Email"
+                value={email}
+                onChangeText={(value) => setEmail(value)}
                 placeholderTextColor="#9E9E9F"
               />
             </View>
@@ -87,11 +120,20 @@ const SignUp = () => {
               <FontAwesome name="lock" size={24} color="black" />
               <TextInput
                 style={{ color: "#212121", flex: 1 }}
-                secureTextEntry={true}
+                secureTextEntry={!showPassword}
+                value={password}
+                onChangeText={(value) => setPassword(value)}
                 placeholder="Password"
                 placeholderTextColor="#9E9E9F"
+                autoCapitalize="none"
               />
-              <Ionicons name="eye-off" size={24} color="black" />
+              <TouchableOpacity onPress={togglePasswordVisibility}>
+                <Ionicons
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -106,7 +148,7 @@ const SignUp = () => {
         >
           <Text style={{ color: "#212121" }}>Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "#05AA6D", fontWeight: "bold" }}>Log in</Text>
+            <Text style={{ color: "#101010", fontWeight: "bold" }}>Log in</Text>
           </TouchableOpacity>
         </View>
         <Text
@@ -140,7 +182,7 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="google" size={24} color="#00A86B" />
+            <AntDesign name="google" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Google</Text>
           </View>
           <View
@@ -156,7 +198,7 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="apple1" size={24} color="#00A86B" />
+            <AntDesign name="apple1" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Apple</Text>
           </View>
           <View
@@ -172,7 +214,7 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="facebook-square" size={24} color="#00A86B" />
+            <AntDesign name="facebook-square" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Facebook</Text>
           </View>
           <View
@@ -188,16 +230,17 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="twitter" size={24} color="#00A86B" />
+            <AntDesign name="twitter" size={24} color="#101010" />
             <Text style={{ fontWeight: "bold" }}>Continue with Twitter</Text>
           </View>
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: "#00A86B",
+            backgroundColor: "#101010",
             padding: 10,
             borderRadius: 20,
           }}
+          onPress={handleSignUp}
         >
           <Text
             style={{
@@ -210,6 +253,7 @@ const SignUp = () => {
           </Text>
         </TouchableOpacity>
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 };

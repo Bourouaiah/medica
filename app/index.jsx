@@ -1,10 +1,9 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Text, Image, TouchableOpacity, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React from "react";
 
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 
 const welcomeScreen = () => {
   const navigation = useNavigation();
@@ -16,7 +15,7 @@ const welcomeScreen = () => {
         backgroundColor: "#fff",
       }}
     >
-      <StatusBar style="dark" />
+      <StatusBar barStyle="dark-content" />
       <Image
         style={{
           width: 50,
@@ -27,14 +26,7 @@ const welcomeScreen = () => {
         source={require("../assets/images/green-logo.png")}
       />
       <View style={{ marginHorizontal: "auto", gap: 5 }}>
-        <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-          Let's Get Started
-        </Text>
-        <Text
-          style={{ color: "#616161", fontSize: 12, marginHorizontal: "auto" }}
-        >
-          Let's dive into your account
-        </Text>
+        <Text style={{ fontSize: 28, fontWeight: "900" }}>Let's you in</Text>
       </View>
       <View
         style={{
@@ -57,39 +49,7 @@ const welcomeScreen = () => {
             gap: 20,
           }}
         >
-          <AntDesign name="google" size={24} color="#00A86B" />
-          <Text style={{ fontWeight: "bold" }}>Continue with Google</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            borderColor: "#616161",
-            borderWidth: 1,
-            borderStyle: "solid",
-            borderRadius: 20,
-            padding: 10,
-            gap: 20,
-          }}
-        >
-          <AntDesign name="apple1" size={24} color="#00A86B" />
-          <Text style={{ fontWeight: "bold" }}>Continue with Apple</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            borderColor: "#616161",
-            borderWidth: 1,
-            borderStyle: "solid",
-            borderRadius: 20,
-            padding: 10,
-            gap: 20,
-          }}
-        >
-          <AntDesign name="facebook-square" size={24} color="#00A86B" />
+          <AntDesign name="facebook-square" size={24} color="#101010" />
           <Text style={{ fontWeight: "bold" }}>Continue with Facebook</Text>
         </View>
         <View
@@ -105,33 +65,30 @@ const welcomeScreen = () => {
             gap: 20,
           }}
         >
-          <AntDesign name="twitter" size={24} color="#00A86B" />
+          <AntDesign name="google" size={24} color="#101010" />
+          <Text style={{ fontWeight: "bold" }}>Continue with Google</Text>
+        </View>
+        <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            borderColor: "#616161",
+            borderWidth: 1,
+            borderStyle: "solid",
+            borderRadius: 20,
+            padding: 10,
+            gap: 20,
+          }}
+        >
+          <AntDesign name="twitter" size={24} color="#101010" />
           <Text style={{ fontWeight: "bold" }}>Continue with Twitter</Text>
         </View>
       </View>
-      <View style={{ gap: 15 }}>
+      <View>
         <TouchableOpacity
           style={{
-            backgroundColor: "#00A86B",
-            marginHorizontal: 50,
-            padding: 10,
-            borderRadius: 20,
-          }}
-          onPress={() => navigation.navigate("SignUp")}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "#ffffff",
-              fontWeight: "bold",
-            }}
-          >
-            Sign up
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#EBF8F3",
+            backgroundColor: "#101010",
             marginHorizontal: 50,
             padding: 10,
             borderRadius: 20,
@@ -141,11 +98,11 @@ const welcomeScreen = () => {
           <Text
             style={{
               textAlign: "center",
-              color: "#00A86B",
+              color: "#ffffff",
               fontWeight: "bold",
             }}
           >
-            Log in
+            Sign in with password
           </Text>
         </TouchableOpacity>
       </View>
@@ -159,9 +116,10 @@ const welcomeScreen = () => {
           marginTop: 50,
         }}
       >
-        <Text>Privacy Ploicy</Text>
-        <Text>|</Text>
-        <Text>Terms of service</Text>
+        <Text style={{ color: "#757575" }}>Don't have an account ?</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+          <Text style={{ fontWeight: "bold" }}>Sign up</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
