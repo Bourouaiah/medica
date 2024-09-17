@@ -5,8 +5,9 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
@@ -17,9 +18,58 @@ import {
 } from "@expo/vector-icons";
 import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-toast-message";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
 const Login = () => {
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = () => {
+    if (email == "" || password == "") {
+      Toast.show({
+        position: "bottom",
+        type: "error",
+        text1: "Error!",
+        text2: "Please fill in the required data!",
+      });
+    } else {
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          setLoading(true);
+        })
+        .then(() => {
+          setEmail("");
+          setPassword("");
+        })
+        .then(() => {
+          navigation.navigate("(tabs)");
+        })
+        .finally(() => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          Toast.show({
+            position: "bottom",
+            type: "error",
+            text1: "Error!",
+            text2: "Email or password are wrong!",
+          });
+        });
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -30,7 +80,10 @@ const Login = () => {
         paddingVertical: 10,
       }}
     >
-      <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps={"always"}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={"always"}
+      >
         <StatusBar barStyle="dark-content" />
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="black" />
@@ -65,6 +118,9 @@ const Login = () => {
                 style={{ color: "#212121", flex: 1 }}
                 keyboardType="email-address"
                 placeholder="Email"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={(value) => setEmail(value)}
                 placeholderTextColor="#9E9E9F"
               />
             </View>
@@ -88,11 +144,20 @@ const Login = () => {
               <FontAwesome name="lock" size={24} color="black" />
               <TextInput
                 style={{ color: "#212121", flex: 1 }}
-                secureTextEntry={true}
+                secureTextEntry={!showPassword}
                 placeholder="Password"
+                autoCapitalize="none"
+                value={password}
+                onChangeText={(value) => setPassword(value)}
                 placeholderTextColor="#9E9E9F"
               />
-              <Ionicons name="eye-off" size={24} color="black" />
+              <TouchableOpacity onPress={togglePasswordVisibility}>
+                <Ionicons
+                  name={showPassword ? "eye-off" : "eye"}
+                  size={24}
+                  color="black"
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -111,7 +176,9 @@ const Login = () => {
               Remember me
             </Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate("forgotPassword")}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("forgotPassword")}
+          >
             <Text style={{ color: "#101010", fontWeight: "bold" }}>
               Forget Password?
             </Text>
@@ -206,19 +273,25 @@ const Login = () => {
             padding: 10,
             borderRadius: 20,
           }}
-          onPress={() => navigation.navigate("Home")}
+          onPress={handleLogin}
+          disabled={loading}
         >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "#ffffff",
-              fontWeight: "bold",
-            }}
-          >
-            Log in
-          </Text>
+          {loading ? (
+            <ActivityIndicator size="small" color="#ffffff" />
+          ) : (
+            <Text
+              style={{
+                textAlign: "center",
+                color: "#ffffff",
+                fontWeight: "bold",
+              }}
+            >
+              Log in
+            </Text>
+          )}
         </TouchableOpacity>
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 };

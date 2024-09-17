@@ -102,7 +102,7 @@ const welcomeScreen = () => {
               fontWeight: "bold",
             }}
           >
-            Sign in with password
+            Login in with password
           </Text>
         </TouchableOpacity>
       </View>
@@ -117,8 +117,8 @@ const welcomeScreen = () => {
         }}
       >
         <Text style={{ color: "#757575" }}>Don't have an account ?</Text>
-        <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-          <Text style={{ fontWeight: "bold" }}>Sign up</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("(tabs)")}>
+          <Text style={{ fontWeight: "bold" }}>Register</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
