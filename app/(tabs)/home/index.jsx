@@ -7,12 +7,16 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useNavigation } from "@react-navigation/native";
 
 const index = () => {
+
+  const navigation = useNavigation();
+
   return (
     <SafeAreaView
       style={{
@@ -32,7 +36,7 @@ const index = () => {
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
             <Image
               style={{ width: 40, height: 40, borderRadius: 200 }}
-              source={require("../../assets/images/empty-profile-picture.webp")}
+              source={require("../../../assets/images/empty-profile-picture.webp")}
             />
             <View>
               <Text style={{ color: "#767676" }}>Good Morning 👋</Text>
@@ -137,38 +141,39 @@ const index = () => {
           >
             {[
               {
-                source: require("../../assets/images/mercedes.png"),
+                source: require("../../../assets/images/mercedes.png"),
                 label: "Mercedes",
               },
               {
-                source: require("../../assets/images/tesla.png"),
+                source: require("../../../assets/images/tesla.png"),
                 label: "Tesla",
               },
-              { source: require("../../assets/images/bmw.png"), label: "BMW" },
+              { source: require("../../../assets/images/bmw.png"), label: "BMW" },
               {
-                source: require("../../assets/images/toyota.png"),
+                source: require("../../../assets/images/toyota.png"),
                 label: "Toyota",
               },
               {
-                source: require("../../assets/images/bugatti.png"),
+                source: require("../../../assets/images/bugatti.png"),
                 label: "Bugatti",
               },
               {
-                source: require("../../assets/images/honda.png"),
+                source: require("../../../assets/images/honda.png"),
                 label: "Honda",
               },
               {
-                source: require("../../assets/images/chevrolet.png"),
+                source: require("../../../assets/images/chevrolet.png"),
                 label: "Chevrolet",
               },
               {
-                source: require("../../assets/images/volvo.png"),
+                source: require("../../../assets/images/volvo.png"),
                 label: "Volvo",
               },
             ].map((item, index) => (
               <TouchableOpacity
                 key={index}
                 style={{ width: "24%", alignItems: "center", marginBottom: 10 }}
+                onPress={() => navigation.navigate(`${item.label}Cars`)}
               >
                 <Image
                   style={{
@@ -191,7 +196,7 @@ const index = () => {
               alignItems: "center",
             }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Top deals</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Top ratings</Text>
             <TouchableOpacity>
               <Text style={{ fontWeight: "bold" }}>See all</Text>
             </TouchableOpacity>
@@ -223,6 +228,7 @@ const index = () => {
                   paddingVertical: 5,
                   borderRadius: 15,
                 }}
+        
               >
                 <Text style={{fontWeight: "bold"}}>Mercedes</Text>
               </TouchableOpacity>
