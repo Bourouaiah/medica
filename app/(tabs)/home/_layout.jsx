@@ -11,6 +11,30 @@ export default function HomeStack() {
         name="MercedesCars"
         options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
       />
+      <Stack.Screen
+        name="BMWCars"
+        options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="ChevroletCars"
+        options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="HondaCars"
+        options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="BugattiCars"
+        options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="ToyotaCars"
+        options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="VolvoCars"
+        options={{ tabBarStyle: { display: 'none' }, headerShown: false }}
+      />
     </Stack>
   );
 }

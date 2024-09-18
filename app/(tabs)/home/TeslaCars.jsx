@@ -14,7 +14,7 @@ import useFetchCars from "../../../custom-hooks/useFetchCars";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useUserContext } from "../../../UserContext";
 
-const MercedesCars = () => {
+const TeslaCars = () => {
   const { cars } = useFetchCars();
   const { loading } = useUserContext();
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +25,7 @@ const MercedesCars = () => {
 
   const filteredCars = cars.filter(
     (car) =>
-      car.modal.toLowerCase() === "mercedes" &&
+      car.modal.toLowerCase() === "tesla" &&
       car.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -87,7 +87,7 @@ const MercedesCars = () => {
         <StatusBar barStyle="dark-content" />
         <View style={styles.loadingContainer}>
           <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-            No BMW cars found
+            No Tesla cars found
           </Text>
         </View>
       </SafeAreaView>
@@ -207,4 +207,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MercedesCars;
+export default TeslaCars;

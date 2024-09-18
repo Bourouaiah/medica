@@ -7,15 +7,16 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 
 const index = () => {
-
   const navigation = useNavigation();
+
+  const [selected, setSelected] = useState("All");
 
   return (
     <SafeAreaView
@@ -148,7 +149,10 @@ const index = () => {
                 source: require("../../../assets/images/tesla.png"),
                 label: "Tesla",
               },
-              { source: require("../../../assets/images/bmw.png"), label: "BMW" },
+              {
+                source: require("../../../assets/images/bmw.png"),
+                label: "BMW",
+              },
               {
                 source: require("../../../assets/images/toyota.png"),
                 label: "Toyota",
@@ -196,7 +200,9 @@ const index = () => {
               alignItems: "center",
             }}
           >
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>Top ratings</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+              Top ratings
+            </Text>
             <TouchableOpacity>
               <Text style={{ fontWeight: "bold" }}>See all</Text>
             </TouchableOpacity>
@@ -207,115 +213,41 @@ const index = () => {
             showsHorizontalScrollIndicator={false}
           >
             <View style={{ flexDirection: "row", gap: 10 }}>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>All</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-        
-              >
-                <Text style={{fontWeight: "bold"}}>Mercedes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>Tesla</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>BMW</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>Toyota</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>Volvo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>Bugatti</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>Honda</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  borderColor: "#101010",
-                  borderWidth: 2,
-                  borderStyle: "solid",
-                  paddingHorizontal: 15,
-                  paddingVertical: 5,
-                  borderRadius: 15,
-                }}
-              >
-                <Text style={{fontWeight: "bold"}}>Chevrolet</Text>
-              </TouchableOpacity>
+              {[
+                "All",
+                "Mercedes",
+                "Tesla",
+                "BMW",
+                "Toyota",
+                "Volvo",
+                "Bugatti",
+                "Honda",
+                "Chevrolet",
+              ].map((brand) => (
+                <TouchableOpacity
+                  key={brand}
+                  onPress={() => setSelected(brand)}
+                  style={{
+                    borderColor: selected === brand ? "black" : "#101010",
+                    borderWidth: 2,
+                    borderStyle: "solid",
+                    paddingHorizontal: 15,
+                    paddingVertical: 5,
+                    borderRadius: 15,
+                    backgroundColor:
+                      selected === brand ? "black" : "transparent",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: selected === brand ? "white" : "black",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {brand}
+                  </Text>
+                </TouchableOpacity>
+              ))}
             </View>
           </ScrollView>
         </View>

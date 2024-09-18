@@ -10,11 +10,11 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import useFetchCars from "../../../custom-hooks/useFetchCars";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useUserContext } from "../../../UserContext";
+import useFetchCars from "../../../custom-hooks/useFetchCars";
 
-const MercedesCars = () => {
+const BMWCars = () => {
   const { cars } = useFetchCars();
   const { loading } = useUserContext();
   const [searchQuery, setSearchQuery] = useState("");
@@ -25,7 +25,7 @@ const MercedesCars = () => {
 
   const filteredCars = cars.filter(
     (car) =>
-      car.modal.toLowerCase() === "mercedes" &&
+      car.modal.toLowerCase() === "bmw" &&
       car.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -207,4 +207,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MercedesCars;
+export default BMWCars;
