@@ -7,7 +7,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
@@ -20,7 +20,10 @@ import Checkbox from "expo-checkbox";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+
+import { dealsData } from "../data";
+import { addDoc, collection } from "firebase/firestore";
 
 const Login = () => {
   const navigation = useNavigation();

@@ -6,17 +6,79 @@ import {
   StatusBar,
   TextInput,
   ScrollView,
+  FlatList,
+  StyleSheet,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
+import useFetchCars from "../../../custom-hooks/useFetchCars";
+import { FontAwesome } from "@expo/vector-icons";
+import { useUserContext } from "../../../UserContext";
+import useFetchUser from "../../../custom-hooks/useFetchUser";
+import useFetchOffers from "../../../custom-hooks/useFetchOffers";
 
 const index = () => {
   const navigation = useNavigation();
 
   const [selected, setSelected] = useState("All");
+
+  const { cars } = useFetchCars();
+  const { offers } = useFetchOffers();
+  const { userDoc } = useFetchUser();
+  const { loading } = useUserContext();
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (text) => {
+    setSearchQuery(text);
+  };
+
+  const lastOffer = offers[offers.length - 1];
+
+  const filteredCars = cars
+    .filter(
+      (car) =>
+        selected === "All" || car.modal.toLowerCase() === selected.toLowerCase()
+    )
+    .filter((car) => car.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 8);
+
+  const renderItem = ({ item }) => (
+    <View style={styles.item}>
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          source={{
+            uri: "https://m.atcdn.co.uk/vms/media/w980/83958660309e48749513b339a12468e9.jpg",
+          }}
+        />
+      </View>
+      <View style={styles.details}>
+        <Text style={styles.title}>{item.name}</Text>
+        <View style={styles.ratingContainer}>
+          <FontAwesome name="star-half-empty" size={24} color="black" />
+          <Text>{item.rating}</Text>
+          <Text>|</Text>
+          <Text style={styles.status}>{item.condition}</Text>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text style={styles.price}>{item.price}</Text>
+          <TouchableOpacity>
+            <Ionicons name="heart-outline" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+      </View>
+    </View>
+  );
 
   return (
     <SafeAreaView
@@ -37,12 +99,12 @@ const index = () => {
           <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
             <Image
               style={{ width: 40, height: 40, borderRadius: 200 }}
-              source={require("../../../assets/images/empty-profile-picture.webp")}
+              source={{ uri: userDoc?.profilePicture }}
             />
             <View>
               <Text style={{ color: "#767676" }}>Good Morning 👋</Text>
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                Abdelaziz Bourouaiah
+                {userDoc?.name}
               </Text>
             </View>
           </View>
@@ -81,6 +143,7 @@ const index = () => {
               placeholder="Search"
               autoCapitalize="none"
               placeholderTextColor="#BCBCBC"
+              onChangeText={handleSearchChange}
             />
           </View>
           <TouchableOpacity>
@@ -117,17 +180,17 @@ const index = () => {
             <View>
               <Image
                 style={{ width: 180, height: 100, borderRadius: 20 }}
-                src="https://m.atcdn.co.uk/vms/media/w980/83958660309e48749513b339a12468e9.jpg"
+                source={{ uri: lastOffer?.image }}
               />
             </View>
             <View style={{ alignItems: "center", gap: 3 }}>
-              <Text style={{ fontWeight: "bold", fontSize: 40 }}>20%</Text>
+              <Text style={{ fontWeight: "bold", fontSize: 40 }}>
+                {lastOffer?.percantage}
+              </Text>
               <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                Week deals!
+                {lastOffer?.title}
               </Text>
-              <Text style={{ color: "#212121" }}>
-                get a new car discount, only valid this week
-              </Text>
+              <Text style={{ color: "#212121" }}>{lastOffer?.description}</Text>
             </View>
           </View>
         </View>
@@ -193,20 +256,7 @@ const index = () => {
           </View>
         </View>
         <View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-              Top ratings
-            </Text>
-            <TouchableOpacity>
-              <Text style={{ fontWeight: "bold" }}>See all</Text>
-            </TouchableOpacity>
-          </View>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Top ratings</Text>
           <ScrollView
             style={{ marginVertical: 20 }}
             horizontal
@@ -251,9 +301,113 @@ const index = () => {
             </View>
           </ScrollView>
         </View>
+        {loading ? (
+          <SafeAreaView style={styles.container}>
+            <StatusBar barStyle="dark-content" />
+            <View style={styles.loadingContainer}>
+              <Image
+                style={{ width: 150, height: 150 }}
+                source={require("../../../assets/images/loading-car.gif")}
+              />
+              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+                Loading cars...
+              </Text>
+            </View>
+          </SafeAreaView>
+        ) : (
+          <FlatList
+            data={filteredCars}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            numColumns={2}
+            contentContainerStyle={styles.grid}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  searchContainer: {
+    backgroundColor: "#F5F5F5",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 10,
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  searchInputContainer: {
+    flexDirection: "row",
+    flex: 1,
+    alignItems: "center",
+  },
+  searchInput: {
+    color: "#212121",
+    flex: 1,
+  },
+  grid: {
+    paddingBottom: 20,
+  },
+  item: {
+    flex: 1,
+    margin: 5,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    elevation: 2,
+    maxWidth: "48%",
+  },
+  imageContainer: {
+    backgroundColor: "#F3F3F3",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    width: "100%",
+    height: 70,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  details: {
+    marginTop: 8,
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 14,
+    maxWidth: "100%",
+    overflow: "hidden",
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    marginVertical: 8,
+  },
+  status: {
+    backgroundColor: "#ECECEC",
+    color: "#373B3E",
+    paddingVertical: 2,
+    paddingHorizontal: 5,
+    borderRadius: 5,
+  },
+  price: {
+    fontWeight: "bold",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 export default index;
