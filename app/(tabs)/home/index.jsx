@@ -161,7 +161,7 @@ const index = () => {
             <Text style={{ fontWeight: "bold", fontSize: 18 }}>
               Special offers
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("offers")}>
               <Text style={{ fontWeight: "bold" }}>See all</Text>
             </TouchableOpacity>
           </View>
