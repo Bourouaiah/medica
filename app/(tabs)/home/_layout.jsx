@@ -9,6 +9,10 @@ export default function HomeStack() {
         options={{ tabBarStyle: { display: "none" }, headerShown: false }}
       />
       <Stack.Screen
+        name="MercedesCars/[id]"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
         name="BMWCars"
         options={{ tabBarStyle: { display: "none" }, headerShown: false }}
       />
@@ -21,7 +25,15 @@ export default function HomeStack() {
         options={{ tabBarStyle: { display: "none" }, headerShown: false }}
       />
       <Stack.Screen
+        name="ChevroletCars/[id]"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
         name="HondaCars"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="HondaCars/[id]"
         options={{ tabBarStyle: { display: "none" }, headerShown: false }}
       />
       <Stack.Screen
@@ -29,11 +41,31 @@ export default function HomeStack() {
         options={{ tabBarStyle: { display: "none" }, headerShown: false }}
       />
       <Stack.Screen
+        name="BugattiCars/[id]"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
         name="ToyotaCars"
         options={{ tabBarStyle: { display: "none" }, headerShown: false }}
       />
       <Stack.Screen
+        name="ToyotaCars/[id]"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="TeslaCars"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="TeslaCars/[id]"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
         name="VolvoCars"
+        options={{ tabBarStyle: { display: "none" }, headerShown: false }}
+      />
+      <Stack.Screen
+        name="VolvoCars/[id]"
         options={{ tabBarStyle: { display: "none" }, headerShown: false }}
       />
       <Stack.Screen

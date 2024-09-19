@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import useFetchCars from "../../../custom-hooks/useFetchCars";
 import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { useUserContext } from "../../../UserContext";
+import { useNavigation } from "@react-navigation/native";
 
 const ToyotaCars = () => {
   const { cars } = useFetchCars();
@@ -23,6 +24,29 @@ const ToyotaCars = () => {
     setSearchQuery(text);
   };
 
+  const navigation = useNavigation();
+  const navigateToToyotaCar = (
+    id,
+    modal,
+    name,
+    description,
+    condition,
+    numberOfReviews,
+    price,
+    rating
+  ) => {
+    navigation.navigate("ToyotaCars/[id]", {
+      id,
+      modal,
+      name,
+      description,
+      condition,
+      numberOfReviews,
+      price,
+      rating,
+    });
+  };
+
   const filteredCars = cars.filter(
     (car) =>
       car.modal.toLowerCase() === "toyota" &&
@@ -31,38 +55,52 @@ const ToyotaCars = () => {
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <View style={styles.imageContainer}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: "https://m.atcdn.co.uk/vms/media/w980/83958660309e48749513b339a12468e9.jpg",
-          }}
-        />
-      </View>
-      <View style={styles.details}>
-        <Text style={styles.title}>{item.name}</Text>
-        <View style={styles.ratingContainer}>
-          <FontAwesome name="star-half-empty" size={24} color="black" />
-          <Text>{item.rating}</Text>
-          <Text>|</Text>
-          <Text style={styles.status}>{item.condition}</Text>
+      <TouchableOpacity
+        onPress={() =>
+          navigateToToyotaCar(
+            `${item.id}`,
+            `${item.modal}`,
+            `${item.name}`,
+            `${item.description}`,
+            `${item.condition}`,
+            `${item.numberOfReviews}`,
+            `${item.price}`,
+            `${item.rating}`
+          )
+        }
+      >
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: "https://m.atcdn.co.uk/vms/media/w980/83958660309e48749513b339a12468e9.jpg",
+            }}
+          />
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <Text style={styles.price}>{item.price}</Text>
-          <TouchableOpacity>
-            <Ionicons name="heart-outline" size={24} color="black" />
-          </TouchableOpacity>
+        <View style={styles.details}>
+          <Text style={styles.title}>{item.name}</Text>
+          <View style={styles.ratingContainer}>
+            <FontAwesome name="star-half-empty" size={24} color="black" />
+            <Text>{item.rating}</Text>
+            <Text>|</Text>
+            <Text style={styles.status}>{item.condition}</Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={styles.price}>{item.price}</Text>
+            <TouchableOpacity>
+              <Ionicons name="heart-outline" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
-
 
   if (loading) {
     return (
