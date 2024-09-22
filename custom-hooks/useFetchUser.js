@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, query, getDocs, limit, startAfter, where } from "firebase/firestore";
+import { collection, query, getDocs, where } from "firebase/firestore";
 import { auth, db } from "../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useUserContext } from '../UserContext';
@@ -12,13 +12,34 @@ const useFetchUser = () => {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     const userQuery = query(
-                        collection(db, "users"),
+                        collection(db, "doctors"),
                         where("email", "==", user.email)
                     );
                     const userSnapshot = await getDocs(userQuery);
-                    userSnapshot.forEach((doc) => {
-                        setUserDoc(doc.data());
-                    });
+                    
+                    if (!userSnapshot.empty) {
+                        userSnapshot.forEach((doc) => {
+                            setUserDoc(doc.data());
+                        });
+                    } else {
+                        // If not found, search in patients
+                        const patientQuery = query(
+                            collection(db, "patients"),
+                            where("email", "==", user.email)
+                        );
+                        const patientSnapshot = await getDocs(patientQuery);
+                        
+                        if (!patientSnapshot.empty) {
+                            patientSnapshot.forEach((doc) => {
+                                setUserDoc(doc.data());
+                            });
+                        } else {
+                            setUserDoc(null);
+                        }
+                    }
+                    setLoading(false);
+                } else {
+                    setUserDoc(null);
                     setLoading(false);
                 }
             });

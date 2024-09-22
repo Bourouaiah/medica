@@ -116,7 +116,7 @@ const Login = () => {
                 borderRadius: 10,
               }}
             >
-              <MaterialIcons name="email" size={24} color="black" />
+              <MaterialIcons name="email" size={24} color="#246BFE" />
               <TextInput
                 style={{ color: "#212121", flex: 1 }}
                 keyboardType="email-address"
@@ -144,7 +144,7 @@ const Login = () => {
                 borderRadius: 10,
               }}
             >
-              <FontAwesome name="lock" size={24} color="black" />
+              <FontAwesome name="lock" size={24} color="#246BFE" />
               <TextInput
                 style={{ color: "#212121", flex: 1 }}
                 secureTextEntry={!showPassword}
@@ -158,7 +158,7 @@ const Login = () => {
                 <Ionicons
                   name={showPassword ? "eye-off" : "eye"}
                   size={24}
-                  color="black"
+                  color="#246BFE"
                 />
               </TouchableOpacity>
             </View>
@@ -218,7 +218,7 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="google" size={24} color="#101010" />
+            <AntDesign name="google" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Google</Text>
           </View>
           <View
@@ -234,7 +234,7 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="apple1" size={24} color="#101010" />
+            <AntDesign name="apple1" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Apple</Text>
           </View>
           <View
@@ -250,7 +250,7 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="facebook-square" size={24} color="#101010" />
+            <AntDesign name="facebook-square" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Facebook</Text>
           </View>
           <View
@@ -266,13 +266,13 @@ const Login = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="twitter" size={24} color="#101010" />
+            <AntDesign name="twitter" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Twitter</Text>
           </View>
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: "#101010",
+            backgroundColor: "#246BFE",
             padding: 10,
             borderRadius: 20,
           }}

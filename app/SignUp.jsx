@@ -67,10 +67,10 @@ const SignUp = () => {
         </TouchableOpacity>
         <View style={{ marginTop: 30, gap: 5 }}>
           <Text style={{ fontSize: 24, fontWeight: "bold", color: "#212121" }}>
-            Join Carea Today 👤
+            Join Medica Today 👤
           </Text>
           <Text style={{ color: "#767676", fontSize: 14, fontWeight: "light" }}>
-            Create Your Blooming Account
+            Start your appointment now!
           </Text>
         </View>
         <View style={{ marginTop: 20, gap: 20 }}>
@@ -90,7 +90,7 @@ const SignUp = () => {
                 borderRadius: 10,
               }}
             >
-              <MaterialIcons name="email" size={24} color="black" />
+              <MaterialIcons name="email" size={24} color="#246BFE" />
               <TextInput
                 style={{ color: "#212121", flex: 1 }}
                 keyboardType="email-address"
@@ -104,7 +104,7 @@ const SignUp = () => {
           </View>
           <View style={{ gap: 10 }}>
             <Text
-              style={{ color: "#212121", fontWeight: "bold", fontSize: 16 }}
+              style={{ color: "black", fontWeight: "bold", fontSize: 16 }}
             >
               Password
             </Text>
@@ -118,7 +118,7 @@ const SignUp = () => {
                 borderRadius: 10,
               }}
             >
-              <FontAwesome name="lock" size={24} color="black" />
+              <FontAwesome name="lock" size={24} color="#246BFE" />
               <TextInput
                 style={{ color: "#212121", flex: 1 }}
                 secureTextEntry={!showPassword}
@@ -132,7 +132,7 @@ const SignUp = () => {
                 <Ionicons
                   name={showPassword ? "eye-off" : "eye"}
                   size={24}
-                  color="black"
+                  color="#246BFE"
                 />
               </TouchableOpacity>
             </View>
@@ -149,7 +149,21 @@ const SignUp = () => {
         >
           <Text style={{ color: "#212121" }}>Already have an account?</Text>
           <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={{ color: "#101010", fontWeight: "bold" }}>Log in</Text>
+            <Text style={{ color: "#246BFE", fontWeight: "bold" }}>Log in</Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 5,
+            marginTop: 20,
+          }}
+        >
+          <Text style={{ color: "#212121" }}>Are you a doctor?</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("SignUpDoctor")}>
+            <Text style={{ color: "#246BFE", fontWeight: "bold" }}>Register as a doctor</Text>
           </TouchableOpacity>
         </View>
         <Text
@@ -183,7 +197,7 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="google" size={24} color="#101010" />
+            <AntDesign name="google" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Google</Text>
           </View>
           <View
@@ -199,7 +213,7 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="apple1" size={24} color="#101010" />
+            <AntDesign name="apple1" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Apple</Text>
           </View>
           <View
@@ -215,7 +229,7 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="facebook-square" size={24} color="#101010" />
+            <AntDesign name="facebook-square" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Facebook</Text>
           </View>
           <View
@@ -231,13 +245,13 @@ const SignUp = () => {
               gap: 20,
             }}
           >
-            <AntDesign name="twitter" size={24} color="#101010" />
+            <AntDesign name="twitter" size={24} color="#246BFE" />
             <Text style={{ fontWeight: "bold" }}>Continue with Twitter</Text>
           </View>
         </View>
         <TouchableOpacity
           style={{
-            backgroundColor: "#101010",
+            backgroundColor: "#246BFE",
             padding: 10,
             borderRadius: 20,
           }}
