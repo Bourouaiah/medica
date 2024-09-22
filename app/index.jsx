@@ -32,7 +32,7 @@ const welcomeScreen = () => {
         The best online doctor appintment & consultation app of the century for
         your health and medical needs!
       </Text>
-      <Text onPress={() => navigation.navigate("Login")}>Next</Text>
+      <Text onPress={() => navigation.navigate("(tabs)")}>Next</Text>
     </SafeAreaView>
   );
 };
