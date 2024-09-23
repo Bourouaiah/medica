@@ -8,7 +8,7 @@ export default function RootLayout() {
   return (
     <Provider store={store}>
       <UserProvider>
-        <Stack initialRouteName="(tabs)">
+        <Stack>
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="SignUp" options={{ headerShown: false }} />
           <Stack.Screen name="SignUpDoctor" options={{ headerShown: false }} />

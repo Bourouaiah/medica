@@ -4,6 +4,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userDoc, setUserDoc] = useState(null);
+  const [doctors, setDoctors] = useState([]);
   const [loading, setLoading] = useState(true);
 
   return (
@@ -12,7 +13,9 @@ export const UserProvider = ({ children }) => {
         userDoc,
         setUserDoc,
         loading,
-        setLoading
+        setLoading,
+        doctors,
+        setDoctors
       }}
     >
       {children}

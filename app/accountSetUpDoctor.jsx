@@ -49,7 +49,6 @@ const accountSetUpDoctor = () => {
   const [email, setEmail] = useState("");
   const [baridiMobRip, setBaridiMobRip] = useState("");
   const [yearsOfExperience, setYearsOfExperience] = useState("");
-  const [hospital, setHospital] = useState("");
   const [speciality, setSpeciality] = useState("");
   const [workingDays, setWorkingDays] = useState("");
   const [workingHours, setWorkingHours] = useState("");
@@ -179,13 +178,20 @@ const accountSetUpDoctor = () => {
         .then((userCredential) => {
           return addDoc(collection(db, "doctors"), {
             name,
-            email,
-            profilePicture,
+            about,
             phoneNumber,
-            age,
             dateOfBirth,
-            city,
+            age,
             gender,
+            city,
+            profilePicture,
+            email,
+            baridiMobRip,
+            yearsOfExperience,
+            speciality,
+            workingDays,
+            workingHours,
+            workStation,
             certificate1,
             certificate2,
             certificate3,
