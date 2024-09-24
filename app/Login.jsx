@@ -193,6 +193,7 @@ const Login = () => {
             alignItems: "center",
             justifyContent: "center",
             gap: 5,
+            marginVertical: 30
           }}
         >
           <Text style={{ color: "#424242" }}>Don't have an account?</Text>
@@ -206,7 +207,6 @@ const Login = () => {
           style={{
             color: "#5F5F5F",
             fontWeight: "bold",
-            marginTop: 30,
             textAlign: "center",
           }}
         >

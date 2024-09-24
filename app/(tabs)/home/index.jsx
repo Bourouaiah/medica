@@ -352,7 +352,7 @@ const index = () => {
                     }}
                   >
                     <Image
-                      style={{ width: 70, height: 70 }}
+                      style={{ width: 70, height: 70, borderRadius: 200 }}
                       source={
                         doctor.profilePicture
                           ? { uri: doctor.profilePicture }

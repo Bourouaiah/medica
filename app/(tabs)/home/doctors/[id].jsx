@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   AntDesign,
   FontAwesome,
@@ -18,6 +18,7 @@ import {
 } from "@expo/vector-icons";
 
 const doctorDetailPage = () => {
+  const navigation = useNavigation();
   const route = useRoute();
   const {
     doctorId,
@@ -48,6 +49,7 @@ const doctorDetailPage = () => {
         backgroundColor: "#fff",
         paddingHorizontal: 20,
         paddingVertical: 10,
+        position: "relative",
       }}
     >
       <ScrollView
@@ -82,7 +84,7 @@ const doctorDetailPage = () => {
           }}
         >
           <Image
-            style={{ width: 70, height: 70 }}
+            style={{ width: 70, height: 70, borderRadius: 200 }}
             source={
               profilePicture
                 ? { uri: profilePicture }
@@ -215,7 +217,47 @@ const doctorDetailPage = () => {
         </View>
         <View>
           <Text style={{ fontWeight: "bold", fontSize: 18 }}>About me</Text>
-          <Text style={{color: "#424242"}}>{about}</Text>
+          <Text style={{ color: "#424242" }}>{about}</Text>
+        </View>
+        <View style={{ marginVertical: 20 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Working time</Text>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
+            <Text style={{ color: "#424242" }}>{workingDays}</Text>
+            <Text style={{ color: "#424242" }}>|</Text>
+            <Text style={{ color: "#424242" }}>{workingHours}</Text>
+          </View>
+        </View>
+        <View>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Reviews</Text>
+          <Text>No reviews for now!</Text>
+        </View>
+        <View style={{ marginTop: 50 }}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("appointments/[id]", {
+                doctorId,
+                name,
+                about,
+                phoneNumber,
+                profilePicture,
+                email,
+                baridiMobRip,
+              })
+            }
+          >
+            <Text
+              style={{
+                backgroundColor: "#246BFD",
+                color: "white",
+                textAlign: "center",
+                padding: 10,
+                borderRadius: 15,
+                fontWeight: "bold",
+              }}
+            >
+              Book appointment
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
