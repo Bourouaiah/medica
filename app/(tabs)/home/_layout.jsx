@@ -7,6 +7,7 @@ export default function HomeStack() {
       <Stack.Screen name="searchPage" options={{ headerShown: false }} />
       <Stack.Screen name="doctors/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="appointments/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="appointmentsSummary/[id]" options={{ headerShown: false }} />
     </Stack>
   );
 }

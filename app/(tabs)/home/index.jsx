@@ -316,7 +316,7 @@ const index = () => {
                   key={index}
                   onPress={() =>
                     navigation.navigate("doctors/[id]", {
-                      doctorId: doctor.id,
+                      doctorId: doctor.doctorId,
                       name: doctor.name,
                       about: doctor.about,
                       phoneNumber: doctor.phoneNumber,

@@ -11,9 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   AntDesign,
-  FontAwesome,
   FontAwesome6,
-  Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
 
@@ -25,10 +23,6 @@ const doctorDetailPage = () => {
     name,
     about,
     phoneNumber,
-    dateOfBirth,
-    age,
-    gender,
-    city,
     profilePicture,
     email,
     baridiMobRip,
@@ -42,6 +36,7 @@ const doctorDetailPage = () => {
     certificate3,
     certificate4,
   } = route.params;
+
   return (
     <SafeAreaView
       style={{
@@ -64,7 +59,7 @@ const doctorDetailPage = () => {
             justifyContent: "space-between",
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="arrowleft" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity>
@@ -80,7 +75,7 @@ const doctorDetailPage = () => {
             paddingVertical: 20,
             paddingHorizontal: 10,
             borderRadius: 15,
-            marginBottom: 10,
+            marginVertical: 20,
           }}
         >
           <Image
@@ -118,6 +113,27 @@ const doctorDetailPage = () => {
               <Text>|</Text>
               <Text>{workStation}</Text>
             </View>
+          </View>
+        </View>
+        <View>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Certaficates</Text>
+          <View style={{ marginVertical: 10, gap: 10 }}>
+            <Image
+              style={{ width: "100%", height: 200 }}
+              source={{ uri: certificate1 }}
+            />
+            <Image
+              style={{ width: "100%", height: 200 }}
+              source={{ uri: certificate2 }}
+            />
+            <Image
+              style={{ width: "100%", height: 200 }}
+              source={{ uri: certificate3 }}
+            />
+            <Image
+              style={{ width: "100%", height: 200 }}
+              source={{ uri: certificate4 }}
+            />
           </View>
         </View>
         <View
@@ -220,6 +236,14 @@ const doctorDetailPage = () => {
           <Text style={{ color: "#424242" }}>{about}</Text>
         </View>
         <View style={{ marginVertical: 20 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Phone number</Text>
+          <Text style={{ color: "#424242" }}>{phoneNumber}</Text>
+        </View>
+        <View>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>BaridiMob rip code</Text>
+          <Text style={{ color: "#424242" }}>{baridiMobRip}</Text>
+        </View>
+        <View style={{ marginVertical: 20 }}>
           <Text style={{ fontWeight: "bold", fontSize: 18 }}>Working time</Text>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 3 }}>
             <Text style={{ color: "#424242" }}>{workingDays}</Text>
@@ -242,6 +266,8 @@ const doctorDetailPage = () => {
                 profilePicture,
                 email,
                 baridiMobRip,
+                speciality,
+                workStation
               })
             }
           >

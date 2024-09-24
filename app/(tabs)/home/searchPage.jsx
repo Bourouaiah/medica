@@ -171,83 +171,110 @@ const SearchPage = () => {
             </View>
           ) : (
             filteredDoctors.map((doctor, index) => (
-              <View
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("doctors/[id]", {
+                    doctorId: doctor.id,
+                    name: doctor.name,
+                    about: doctor.about,
+                    phoneNumber: doctor.phoneNumber,
+                    dateOfBirth: doctor.dateOfBirth,
+                    age: doctor.age,
+                    gender: doctor.gender,
+                    city: doctor.city,
+                    profilePicture: doctor.profilePicture,
+                    email: doctor.email,
+                    baridiMobRip: doctor.baridiMobRip,
+                    yearsOfExperience: doctor.yearsOfExperience,
+                    speciality: doctor.speciality,
+                    workingDays: doctor.workingDays,
+                    workingHours: doctor.workingHours,
+                    workStation: doctor.workStation,
+                    certificate1: doctor.certificate1,
+                    certificate2: doctor.certificate2,
+                    certificate3: doctor.certificate3,
+                    certificate4: doctor.certificate4,
+                  })
+                }
                 key={index}
-                style={{
-                  backgroundColor: "#FAFAFA",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 20,
-                  paddingVertical: 20,
-                  paddingHorizontal: 10,
-                  borderRadius: 15,
-                  marginBottom: 10,
-                }}
               >
-                <Image
-                  style={{ width: 70, height: 70 }}
-                  source={
-                    doctor.profilePicture
-                      ? { uri: doctor.profilePicture }
-                      : require("../../../assets/images/empty-profile-picture.png")
-                  }
-                />
-                <View style={{ flex: 1 }}>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      borderBottomColor: "#747373",
-                      borderBottomWidth: 1,
-                      paddingBottom: 8,
-                    }}
-                  >
-                    <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-                      {doctor.name}
-                    </Text>
-                    <TouchableOpacity>
-                      <Ionicons
-                        name="heart-outline"
-                        size={24}
+                <View
+                  style={{
+                    backgroundColor: "#FAFAFA",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 20,
+                    paddingVertical: 20,
+                    paddingHorizontal: 10,
+                    borderRadius: 15,
+                    marginBottom: 10,
+                  }}
+                >
+                  <Image
+                    style={{ width: 70, height: 70, borderRadius: 200 }}
+                    source={
+                      doctor.profilePicture
+                        ? { uri: doctor.profilePicture }
+                        : require("../../../assets/images/empty-profile-picture.png")
+                    }
+                  />
+                  <View style={{ flex: 1 }}>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        borderBottomColor: "#747373",
+                        borderBottomWidth: 1,
+                        paddingBottom: 8,
+                      }}
+                    >
+                      <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                        {doctor.name}
+                      </Text>
+                      <TouchableOpacity>
+                        <Ionicons
+                          name="heart-outline"
+                          size={24}
+                          color="#246BFD"
+                        />
+                      </TouchableOpacity>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 5,
+                        paddingTop: 8,
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Text>
+                        {doctor.speciality.charAt(0).toUpperCase() +
+                          doctor.speciality.slice(1)}
+                      </Text>
+                      <Text>|</Text>
+                      <Text>{doctor.workStation}</Text>
+                    </View>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 5,
+                      }}
+                    >
+                      <FontAwesome
+                        name="star-half-empty"
+                        size={18}
                         color="#246BFD"
                       />
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 5,
-                      paddingTop: 8,
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Text>
-                      {doctor.speciality.charAt(0).toUpperCase() +
-                        doctor.speciality.slice(1)}
-                    </Text>
-                    <Text>|</Text>
-                    <Text>{doctor.workStation}</Text>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: 5,
-                    }}
-                  >
-                    <FontAwesome
-                      name="star-half-empty"
-                      size={18}
-                      color="#246BFD"
-                    />
-                    <Text>{doctor.rating ? `${doctor.rating}` : "--"}</Text>
-                    <Text>
-                      ({doctor.reviews ? `${doctor.rating}` : "--"} reviews)
-                    </Text>
+                      <Text>{doctor.rating ? `${doctor.rating}` : "--"}</Text>
+                      <Text>
+                        ({doctor.reviews ? `${doctor.rating}` : "--"} reviews)
+                      </Text>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))
           )}
         </View>

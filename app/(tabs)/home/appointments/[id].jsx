@@ -18,14 +18,45 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import RNPickerSelect from "react-native-picker-select";
+import Toast from "react-native-toast-message";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../../../../firebase";
+import useFetchUser from "../../../../custom-hooks/useFetchUser";
 
 const appointmentDetailInfo = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
+  const {
+    doctorId,
+    name,
+    about,
+    phoneNumber,
+    profilePicture,
+    email,
+    baridiMobRip,
+    workStation,
+    speciality,
+  } = route.params;
+
   const [dateOfAppointment, setdateOfAppointment] = useState(new Date());
   const [show, setShow] = useState(false);
   const [timeOfAppointment, setTimeOfAppointment] = useState(new Date());
   const [showTime, setShowTime] = useState(false);
   const [duratuion, setDuration] = useState("");
   const [selectedPackage, setSelectedPackage] = useState("messaging");
+  const [problem, setProblem] = useState("");
+
+  const formattedDate = dateOfAppointment.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  const formattedTime = timeOfAppointment.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 
   const onChange = (event, selectedDate) => {
     if (selectedDate) {
@@ -48,6 +79,45 @@ const appointmentDetailInfo = () => {
     }
     setShowTime(false);
   };
+
+  // const handleSubmit = async () => {
+  //   if (
+  //     duratuion == "" ||
+  //     selectedPackage == "" ||
+  //     !dateOfAppointment ||
+  //     !timeOfAppointment
+  //   ) {
+  //     Toast.show({
+  //       position: "bottom",
+  //       type: "error",
+  //       text1: "Error!",
+  //       text2: "Please fill in the required data!",
+  //     });
+  //   } else {
+  //     const formattedDate = dateOfAppointment.toLocaleDateString("en-GB", {
+  //       day: "numeric",
+  //       month: "long",
+  //       year: "numeric",
+  //     });
+  //     const formattedTime = timeOfAppointment.toLocaleTimeString([], {
+  //       hour: "2-digit",
+  //       minute: "2-digit",
+  //       hour12: true,
+  //     });
+  //     await updateDoc(doc(db, "doctors", doctorId), {
+  //       appointments: arrayUnion({
+  //         formattedDate,
+  //         formattedTime,
+  //         duratuion,
+  //         selectedPackage,
+  //         problem,
+  //       }),
+  //     })
+  //     .then(() => {
+
+  //     });
+  //   }
+  // };
 
   return (
     <SafeAreaView
@@ -92,7 +162,11 @@ const appointmentDetailInfo = () => {
             <TextInput
               style={{ color: "#212121", flex: 1 }}
               placeholderTextColor={"#9E9E9F"}
-              value={dateOfAppointment.toLocaleDateString()}
+              value={dateOfAppointment.toLocaleDateString("en-GB", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
               editable={false}
             />
             {show && (
@@ -128,6 +202,7 @@ const appointmentDetailInfo = () => {
               value={timeOfAppointment.toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
+                hour12: true,
               })}
               editable={false}
             />
@@ -398,19 +473,51 @@ const appointmentDetailInfo = () => {
               padding: 10,
               gap: 10,
               borderRadius: 10,
-              marginTop: 10
             }}
           >
             <AntDesign name="questioncircle" size={24} color="#246BFD" />
             <TextInput
               style={{ color: "#212121", flex: 1 }}
               keyboardType="default"
+              value={problem}
+              onChangeText={(value) => setProblem(value)}
               placeholder="Your problem"
               placeholderTextColor="#9E9E9F"
             />
           </View>
         </View>
+        <View style={{ marginTop: 30 }}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("appointmentsSummary/[id]", {
+                doctorId,
+                name,
+                profilePicture,
+                workStation,
+                speciality,
+                formattedDate,
+                formattedTime,
+                duratuion,
+                selectedPackage,
+              })
+            }
+          >
+            <Text
+              style={{
+                backgroundColor: "#246BFD",
+                color: "white",
+                textAlign: "center",
+                padding: 10,
+                borderRadius: 15,
+                fontWeight: "bold",
+              }}
+            >
+              Next
+            </Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
+      <Toast />
     </SafeAreaView>
   );
 };
