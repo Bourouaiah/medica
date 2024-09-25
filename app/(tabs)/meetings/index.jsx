@@ -10,7 +10,7 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useFetchUser from "../../../custom-hooks/useFetchUser";
 import { useUserContext } from "../../../UserContext";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 
 const index = () => {
   const { userDoc } = useFetchUser();
@@ -19,7 +19,7 @@ const index = () => {
 
   const [selectedType, setSelectedType] = useState("upcoming");
 
-  const filteredAppointments = appointments.filter(
+  const filteredAppointments = appointments?.filter(
     (appointment) => appointment.type == selectedType
   );
 
@@ -30,7 +30,7 @@ const index = () => {
   const types = [
     { label: "Upcoming", value: "upcoming" },
     { label: "Completed", value: "completed" },
-    { label: "Canceled", value: "canceled" },
+    { label: "Cancelled", value: "cancelled" },
   ];
 
   const { loading } = useUserContext();
@@ -101,90 +101,140 @@ const index = () => {
             </View>
           ) : filteredAppointments.length === 0 ? (
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-              <Text style={{ fontWeight: "bold", fontSize: 18 }}>
-                No appointments for this type.
+              <Image
+                style={{ width: 200, height: 200 }}
+                source={require("../../../assets/images/no-appointment.png")}
+              />
+              <Text style={{ textAlign: "center", marginTop: 20 }}>
+                No appointment schedule here at the moment.
               </Text>
             </View>
           ) : (
             filteredAppointments.map((appointment, index) => (
               <TouchableOpacity
+                style={{
+                  backgroundColor: "#FAFAFA",
+                  paddingHorizontal: 5,
+                  paddingVertical: 20,
+                  borderRadius: 15,
+                }}
                 key={index}
               >
                 <View
                   style={{
-                    backgroundColor: "#FAFAFA",
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: 20,
-                    paddingVertical: 20,
-                    paddingHorizontal: 10,
-                    borderRadius: 15,
-                    marginBottom: 10,
+                    justifyContent: "space-between",
+                    marginBottom: 20,
                   }}
                 >
                   <Image
-                    style={{ width: 70, height: 70, borderRadius: 200 }}
-                    source={
-                      appointment.profilePicture
-                        ? { uri: appointment.doctorProfilePicture }
-                        : require("../../../assets/images/empty-profile-picture.png")
-                    }
+                    style={{ width: 50, height: 50, borderRadius: 200 }}
+                    source={{ uri: appointment.doctorProfilePicture }}
                   />
-                  <View style={{ flex: 1 }}>
+                  <View style={{ gap: 10 }}>
+                    <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                      {appointment.doctorName}
+                    </Text>
                     <View
                       style={{
                         flexDirection: "row",
-                        justifyContent: "space-between",
-                        borderBottomColor: "#747373",
-                        borderBottomWidth: 1,
-                        paddingBottom: 8,
+                        alignItems: "center",
+                        gap: 5,
                       }}
                     >
-                      <Text style={{ fontWeight: "bold", fontSize: 16 }}>
-                        {appointment.doctorName}
+                      <Text>
+                        {appointment.selectedPackage
+                          ? appointment.selectedPackage
+                              .charAt(0)
+                              .toUpperCase() +
+                            appointment.selectedPackage.slice(1).toLowerCase()
+                          : ""}
                       </Text>
-                      <TouchableOpacity>
-                        <Ionicons
-                          name="heart-outline"
-                          size={24}
-                          color="#246BFD"
-                        />
-                      </TouchableOpacity>
+                      <Text>-</Text>
+                      <Text
+                        style={{
+                          color: "#246BFD",
+                          borderColor: "#246BFD",
+                          borderWidth: 1,
+                          borderStyle: "solid",
+                          borderRadius: 5,
+                          paddingHorizontal: 5,
+                          paddingVertical: 2,
+                        }}
+                      >
+                        Upcoming
+                      </Text>
                     </View>
                     <View
                       style={{
                         flexDirection: "row",
                         alignItems: "center",
                         gap: 5,
-                        paddingTop: 8,
-                        paddingBottom: 5,
                       }}
                     >
-                      <Text>
-                        {appointment.doctorSpeciality.charAt(0).toUpperCase() +
-                          appointment.doctorSpeciality.slice(1)}
-                      </Text>
+                      <Text>{appointment.formattedDate}</Text>
                       <Text>|</Text>
-                      {/* <Text>{appointment.workStation}</Text> */}
-                    </View>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        gap: 5,
-                      }}
-                    >
-                      <FontAwesome
-                        name="star-half-empty"
-                        size={18}
-                        color="#246BFD"
-                      />
-                      {/* <Text>{doctor.rating ? `${doctor.rating}` : "--"}</Text>
-                      <Text>
-                        ({doctor.reviews ? `${doctor.rating}` : "--"} reviews)
-                      </Text> */}
+                      <Text>{appointment.formattedTime}</Text>
                     </View>
                   </View>
+                  <TouchableOpacity>
+                    <View
+                      style={{
+                        backgroundColor: "#EDF3FF",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        padding: 10,
+                        borderRadius: 15,
+                      }}
+                    >
+                      <AntDesign name="message1" size={24} color="#246BFD" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    flex: 1,
+                    gap: 5,
+                    paddingTop: 20,
+                    borderTopColor: "#EFEFF0",
+                    borderTopWidth: 1,
+                    borderTopStyle: "solid",
+                  }}
+                >
+                  <TouchableOpacity style={{ width: "50%" }}>
+                    <Text
+                      style={{
+                        color: "#246BFD",
+                        borderColor: "#246BFD",
+                        backgroundColor: "white",
+                        borderWidth: 2,
+                        borderStyle: "solid",
+                        padding: 5,
+                        textAlign: "center",
+                        borderRadius: 15,
+                      }}
+                    >
+                      Cancel appointment
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={{ width: "50%" }}>
+                    <Text
+                      style={{
+                        color: "white",
+                        borderColor: "#246BFD",
+                        backgroundColor: "#246BFD",
+                        borderWidth: 2,
+                        borderStyle: "solid",
+                        padding: 5,
+                        textAlign: "center",
+                        borderRadius: 15,
+                      }}
+                    >
+                      Reschedule
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </TouchableOpacity>
             ))

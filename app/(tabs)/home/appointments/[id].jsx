@@ -122,7 +122,7 @@ const appointmentDetailInfo = () => {
           patientPhoneNumber: userDoc.phoneNumber,
           patientEmail: userDoc.email,
           patientProfilePicture: userDoc.profilePicture,
-          type: "upcoming"
+          type: "upcoming",
         }),
       })
         .then(() => {
@@ -138,7 +138,7 @@ const appointmentDetailInfo = () => {
               doctorPhoneNumber: phoneNumber,
               doctorEmail: email,
               doctorSpeciality: speciality,
-              type: "upcoming"
+              type: "upcoming",
             }),
           });
         })
@@ -546,7 +546,10 @@ const appointmentDetailInfo = () => {
           </View>
         </View>
         <View style={{ marginTop: 30 }}>
-          <TouchableOpacity onPress={handleSubmit}>
+          <TouchableOpacity
+            style={{ backgroundColor: "#246BFD" }}
+            onPress={handleSubmit}
+          >
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />
             ) : (
