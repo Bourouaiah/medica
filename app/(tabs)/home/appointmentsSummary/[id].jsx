@@ -2,9 +2,10 @@ import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const appointmentsSummaryPage = () => {
+  const navigation = useNavigation();
   const route = useRoute();
   const {
     doctorId,
@@ -198,7 +199,7 @@ const appointmentsSummaryPage = () => {
           </View>
         </View>
         <View style={{ marginTop: 30 }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("index")}>
             <Text
               style={{
                 backgroundColor: "#246BFD",
@@ -209,7 +210,7 @@ const appointmentsSummaryPage = () => {
                 fontWeight: "bold",
               }}
             >
-              Next
+              Back to homepage
             </Text>
           </TouchableOpacity>
         </View>

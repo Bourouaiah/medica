@@ -1,19 +1,56 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import AntDesign from '@expo/vector-icons/AntDesign';
-
 import { Tabs } from 'expo-router';
+import * as Animatable from 'react-native-animatable';
 
 export default function TabLayout() {
+  const activeColor = '#246BFD';
+  const inactiveColor = '#9E9E9E';
+
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: 'blue' }}>
+    <Tabs
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: activeColor,
+        tabBarInactiveTintColor: inactiveColor,
+        tabBarIcon: ({ focused, color }) => {
+          let iconName;
+
+          if (route.name === 'home') {
+            iconName = 'home';
+          } else if (route.name === 'meetings') {
+            iconName = 'calendar';
+          }
+
+          return (
+            <Animatable.View
+              animation={focused ? 'pulse' : undefined}
+              duration={800}
+              useNativeDriver
+            >
+              <FontAwesome name={iconName} size={28} color={color} />
+            </Animatable.View>
+          );
+        },
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          borderTopWidth: 0,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
+      })}
+    >
       <Tabs.Screen
         name="home"
         options={{
           headerShown: false,
           title: 'Home',
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="meetings"
+        options={{
+          headerShown: false,
+          title: 'Appointments',
         }}
       />
     </Tabs>

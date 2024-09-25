@@ -261,11 +261,9 @@ const doctorDetailPage = () => {
               navigation.navigate("appointments/[id]", {
                 doctorId,
                 name,
-                about,
                 phoneNumber,
                 profilePicture,
                 email,
-                baridiMobRip,
                 speciality,
                 workStation
               })

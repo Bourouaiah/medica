@@ -5,6 +5,7 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -19,25 +20,30 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 
 import RNPickerSelect from "react-native-picker-select";
 import Toast from "react-native-toast-message";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  CommonActions,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { arrayUnion, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase";
 import useFetchUser from "../../../../custom-hooks/useFetchUser";
 
 const appointmentDetailInfo = () => {
+  const { userDoc } = useFetchUser();
   const navigation = useNavigation();
   const route = useRoute();
   const {
     doctorId,
     name,
-    about,
     phoneNumber,
     profilePicture,
     email,
-    baridiMobRip,
     workStation,
     speciality,
   } = route.params;
+
+  const [loading, setLoading] = useState(false);
 
   const [dateOfAppointment, setdateOfAppointment] = useState(new Date());
   const [show, setShow] = useState(false);
@@ -80,44 +86,97 @@ const appointmentDetailInfo = () => {
     setShowTime(false);
   };
 
-  // const handleSubmit = async () => {
-  //   if (
-  //     duratuion == "" ||
-  //     selectedPackage == "" ||
-  //     !dateOfAppointment ||
-  //     !timeOfAppointment
-  //   ) {
-  //     Toast.show({
-  //       position: "bottom",
-  //       type: "error",
-  //       text1: "Error!",
-  //       text2: "Please fill in the required data!",
-  //     });
-  //   } else {
-  //     const formattedDate = dateOfAppointment.toLocaleDateString("en-GB", {
-  //       day: "numeric",
-  //       month: "long",
-  //       year: "numeric",
-  //     });
-  //     const formattedTime = timeOfAppointment.toLocaleTimeString([], {
-  //       hour: "2-digit",
-  //       minute: "2-digit",
-  //       hour12: true,
-  //     });
-  //     await updateDoc(doc(db, "doctors", doctorId), {
-  //       appointments: arrayUnion({
-  //         formattedDate,
-  //         formattedTime,
-  //         duratuion,
-  //         selectedPackage,
-  //         problem,
-  //       }),
-  //     })
-  //     .then(() => {
-
-  //     });
-  //   }
-  // };
+  const handleSubmit = async () => {
+    if (
+      duratuion == "" ||
+      selectedPackage == "" ||
+      !dateOfAppointment ||
+      !timeOfAppointment
+    ) {
+      Toast.show({
+        position: "bottom",
+        type: "error",
+        text1: "Error!",
+        text2: "Please fill in the required data!",
+      });
+    } else {
+      setLoading(true);
+      const formattedDate = dateOfAppointment.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      const formattedTime = timeOfAppointment.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      });
+      await updateDoc(doc(db, "doctors", doctorId), {
+        appointments: arrayUnion({
+          formattedDate,
+          formattedTime,
+          duratuion,
+          selectedPackage,
+          problem,
+          patientName: userDoc.name,
+          patientPhoneNumber: userDoc.phoneNumber,
+          patientEmail: userDoc.email,
+          patientProfilePicture: userDoc.profilePicture,
+          type: "upcoming"
+        }),
+      })
+        .then(() => {
+          updateDoc(doc(db, "patients", userDoc.patientId), {
+            appointments: arrayUnion({
+              formattedDate,
+              formattedTime,
+              duratuion,
+              selectedPackage,
+              problem,
+              doctorName: name,
+              doctorProfilePicture: profilePicture,
+              doctorPhoneNumber: phoneNumber,
+              doctorEmail: email,
+              doctorSpeciality: speciality,
+              type: "upcoming"
+            }),
+          });
+        })
+        .then(() => {
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                {
+                  name: "appointmentsSummary/[id]",
+                  params: {
+                    doctorId,
+                    name,
+                    profilePicture,
+                    workStation,
+                    speciality,
+                    formattedDate,
+                    formattedTime,
+                    duratuion,
+                    selectedPackage,
+                  },
+                },
+              ],
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+          setLoading(false);
+          Toast.show({
+            position: "bottom",
+            type: "error",
+            text1: "Error!",
+            text2: "Something went wrong, please try again!",
+          });
+        });
+    }
+  };
 
   return (
     <SafeAreaView
@@ -487,33 +546,23 @@ const appointmentDetailInfo = () => {
           </View>
         </View>
         <View style={{ marginTop: 30 }}>
-          <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("appointmentsSummary/[id]", {
-                doctorId,
-                name,
-                profilePicture,
-                workStation,
-                speciality,
-                formattedDate,
-                formattedTime,
-                duratuion,
-                selectedPackage,
-              })
-            }
-          >
-            <Text
-              style={{
-                backgroundColor: "#246BFD",
-                color: "white",
-                textAlign: "center",
-                padding: 10,
-                borderRadius: 15,
-                fontWeight: "bold",
-              }}
-            >
-              Next
-            </Text>
+          <TouchableOpacity onPress={handleSubmit}>
+            {loading ? (
+              <ActivityIndicator size="small" color="#ffffff" />
+            ) : (
+              <Text
+                style={{
+                  backgroundColor: "#246BFD",
+                  color: "white",
+                  textAlign: "center",
+                  padding: 10,
+                  borderRadius: 15,
+                  fontWeight: "bold",
+                }}
+              >
+                Next
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </ScrollView>
