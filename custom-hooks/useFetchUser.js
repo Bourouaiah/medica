@@ -8,7 +8,7 @@ const useFetchUser = () => {
     const { userDoc, setUserDoc, setLoading } = useUserContext();
 
     useEffect(() => {
-        const fetchData = async () => {
+         const fetchData = async () => {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     const userQuery = query(
@@ -22,7 +22,6 @@ const useFetchUser = () => {
                             setUserDoc(doc.data());
                         });
                     } else {
-                        // If not found, search in patients
                         const patientQuery = query(
                             collection(db, "patients"),
                             where("email", "==", user.email)
