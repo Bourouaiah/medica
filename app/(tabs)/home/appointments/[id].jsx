@@ -101,6 +101,11 @@ const appointmentDetailInfo = () => {
       });
     } else {
       setLoading(true);
+
+      const appointmentId = Math.floor(
+        Math.random() * 1000000000000
+      ).toString();
+
       const formattedDate = dateOfAppointment.toLocaleDateString("en-GB", {
         day: "numeric",
         month: "long",
@@ -113,11 +118,13 @@ const appointmentDetailInfo = () => {
       });
       await updateDoc(doc(db, "doctors", doctorId), {
         appointments: arrayUnion({
+          appointmentId,
           formattedDate,
           formattedTime,
           duratuion,
           selectedPackage,
           problem,
+          doctorId: doctorId,
           patientName: userDoc.name,
           patientPhoneNumber: userDoc.phoneNumber,
           patientEmail: userDoc.email,
@@ -128,11 +135,13 @@ const appointmentDetailInfo = () => {
         .then(() => {
           updateDoc(doc(db, "patients", userDoc.patientId), {
             appointments: arrayUnion({
+              appointmentId,
               formattedDate,
               formattedTime,
               duratuion,
               selectedPackage,
               problem,
+              doctorId: doctorId,
               doctorName: name,
               doctorProfilePicture: profilePicture,
               doctorPhoneNumber: phoneNumber,
@@ -547,7 +556,7 @@ const appointmentDetailInfo = () => {
         </View>
         <View style={{ marginTop: 30 }}>
           <TouchableOpacity
-            style={{ backgroundColor: "#246BFD" }}
+            style={{ backgroundColor: "#246BFD", padding: 10, borderRadius: 15 }}
             onPress={handleSubmit}
           >
             {loading ? (
@@ -555,11 +564,8 @@ const appointmentDetailInfo = () => {
             ) : (
               <Text
                 style={{
-                  backgroundColor: "#246BFD",
                   color: "white",
                   textAlign: "center",
-                  padding: 10,
-                  borderRadius: 15,
                   fontWeight: "bold",
                 }}
               >

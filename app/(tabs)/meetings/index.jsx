@@ -5,19 +5,33 @@ import {
   Image,
   StatusBar,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import useFetchUser from "../../../custom-hooks/useFetchUser";
 import { useUserContext } from "../../../UserContext";
 import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const index = () => {
+  const navigation = useNavigation();
+
   const { userDoc } = useFetchUser();
 
   const appointments = userDoc?.appointments;
 
   const [selectedType, setSelectedType] = useState("upcoming");
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleCancelAppointment = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
 
   const filteredAppointments = appointments?.filter(
     (appointment) => appointment.type == selectedType
@@ -99,7 +113,7 @@ const index = () => {
                 source={require("../../../assets/images/loading-doctor.gif")}
               />
             </View>
-          ) : filteredAppointments.length === 0 ? (
+          ) : filteredAppointments?.length === 0 ? (
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <Image
                 style={{ width: 200, height: 200 }}
@@ -110,7 +124,7 @@ const index = () => {
               </Text>
             </View>
           ) : (
-            filteredAppointments.map((appointment, index) => (
+            filteredAppointments?.map((appointment, index) => (
               <TouchableOpacity
                 style={{
                   backgroundColor: "#FAFAFA",
@@ -203,7 +217,10 @@ const index = () => {
                     borderTopStyle: "solid",
                   }}
                 >
-                  <TouchableOpacity style={{ width: "50%" }}>
+                  <TouchableOpacity
+                    style={{ width: "50%" }}
+                    onPress={handleCancelAppointment}
+                  >
                     <Text
                       style={{
                         color: "#246BFD",
@@ -219,7 +236,15 @@ const index = () => {
                       Cancel appointment
                     </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={{ width: "50%" }}>
+                  <TouchableOpacity
+                    style={{ width: "50%" }}
+                    onPress={() =>
+                      navigation.navigate("appointmentReschedule/[id]", {
+                        appointmentId: appointment.appointmentId,
+                        doctorId: appointment.doctorId,
+                      })
+                    }
+                  >
                     <Text
                       style={{
                         color: "white",
@@ -240,6 +265,73 @@ const index = () => {
             ))
           )}
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={isModalVisible}
+          onRequestClose={() => setIsModalVisible(false)}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                padding: 20,
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+              }}
+            >
+              <Text
+                style={{ fontWeight: "bold", fontSize: 18, marginBottom: 20, textAlign: "center" }}
+              >
+                Are you sure you want to cancel your appointment?
+              </Text>
+
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TouchableOpacity
+                  onPress={() => setIsModalVisible(false)}
+                  style={{
+                    backgroundColor: "#E9F0FF",
+                    padding: 10,
+                    borderRadius: 15,
+                    width: "48%",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ color: "#246BFD", fontWeight: "bold" }}>
+                    Back
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleRemoveAppointment();
+                  }}
+                  style={{
+                    backgroundColor: "#246BFD",
+                    padding: 10,
+                    borderRadius: 15,
+                    width: "48%",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ color: "white", fontWeight: "bold" }}>
+                    Yes, cancel
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ScrollView>
     </SafeAreaView>
   );
