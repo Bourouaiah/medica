@@ -109,10 +109,17 @@ const PatientHomePage = () => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <Image
-            style={{ width: 50, height: 50 }}
-            source={require("../../assets/images/empty-profile-picture.png")}
-          />
+          {!userDoc?.profilePicture ? (
+            <Image
+              style={{ width: 50, height: 50, borderRadius: 200 }}
+              source={require("../../assets/images/empty-profile-picture.png")}
+            />
+          ) : (
+            <Image
+              style={{ width: 50, height: 50, borderRadius: 200 }}
+              source={{ uri: userDoc?.profilePicture }}
+            />
+          )}
           <View>
             <Text style={{ color: "#747373" }}>Hello! 👋</Text>
             <Text
@@ -224,7 +231,7 @@ const PatientHomePage = () => {
           <Text style={{ color: "#212020", fontWeight: "bold", fontSize: 16 }}>
             Doctors
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("searchPage")}>
             <Text style={{ color: "#246BFD", fontWeight: "bold" }}>
               See All
             </Text>

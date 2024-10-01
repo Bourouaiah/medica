@@ -70,7 +70,7 @@ const SignUp = () => {
             Join Medica Today 👤
           </Text>
           <Text style={{ color: "#767676", fontSize: 14, fontWeight: "light" }}>
-            Start your appointment now!
+            Start your appointments now!
           </Text>
         </View>
         <View style={{ marginTop: 20, gap: 20 }}>

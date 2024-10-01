@@ -96,7 +96,7 @@ const Login = () => {
             Welcome Back! 👋
           </Text>
           <Text style={{ color: "#767676", fontSize: 14, fontWeight: "light" }}>
-            Let's see new cars today.
+            Let's see new doctors today.
           </Text>
         </View>
         <View style={{ marginTop: 20, gap: 20 }}>

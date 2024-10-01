@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useUserContext } from '../UserContext';
 
 const useFetchUser = () => {
-    const { userDoc, setUserDoc, setLoading } = useUserContext();
+    const { doctors, userDoc, setUserDoc, setLoading } = useUserContext();
 
     useEffect(() => {
          const fetchData = async () => {
@@ -45,7 +45,7 @@ const useFetchUser = () => {
         };
 
         fetchData();
-    }, [setLoading, setUserDoc]);
+    }, [setLoading, setUserDoc, doctors]);
 
     return { userDoc };
 };

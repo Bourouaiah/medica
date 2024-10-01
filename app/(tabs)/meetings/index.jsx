@@ -197,10 +197,10 @@ const index = () => {
             </View>
           ) : (
             filteredAppointments?.map((appointment, index) => (
-              <TouchableOpacity
+              <View
                 style={{
                   backgroundColor: "#FAFAFA",
-                  paddingHorizontal: 5,
+                  paddingHorizontal: 10,
                   paddingVertical: 20,
                   borderRadius: 15,
                 }}
@@ -276,7 +276,34 @@ const index = () => {
                       <Text>{appointment.formattedTime}</Text>
                     </View>
                   </View>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate(
+                        `${
+                          appointment.selectedPackage === "messaging"
+                            ? "messagingAppointment/[id]"
+                            : appointment.selectedPackage === "voicecall"
+                            ? "voiceCallAppointment/[id]"
+                            : "videoCallAppointment/[id]"
+                        }`,
+                        {
+                          doctorEmail: appointment.doctorEmail,
+                          doctorName: appointment.doctorName,
+                          doctorPhoneNumber: appointment.doctorPhoneNumber,
+                          doctorProfilePicture:
+                            appointment.doctorProfilePicture,
+                          doctorSpeciality: appointment.doctorSpeciality,
+                          duratuion: appointment.duratuion,
+                          formattedDate: appointment.formattedDate,
+                          formattedTime: appointment.formattedTime,
+                          problem: appointment.problem,
+                          selectedPackage: appointment.selectedPackage,
+                          doctorEmail: appointment.doctorEmail,
+                          doctorWorkStation: appointment.doctorWorkStation,
+                        }
+                      )
+                    }
+                  >
                     <View
                       style={{
                         backgroundColor: "#EDF3FF",
@@ -286,7 +313,17 @@ const index = () => {
                         borderRadius: 15,
                       }}
                     >
-                      <AntDesign name="message1" size={24} color="#246BFD" />
+                      <AntDesign
+                        name={`${
+                          appointment.selectedPackage === "messaging"
+                            ? "message1"
+                            : appointment.selectedPackage === "voicecall"
+                            ? "phone"
+                            : "videocamera"
+                        }`}
+                        size={24}
+                        color="#246BFD"
+                      />
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -323,9 +360,9 @@ const index = () => {
                           borderRadius: 15,
                         }}
                       >
-                        {
-                          appointment.type == "upcoming" ? "Cancel appointment" : "Book again"
-                        }
+                        {appointment.type == "upcoming"
+                          ? "Cancel appointment"
+                          : "Book again"}
                       </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -349,14 +386,14 @@ const index = () => {
                           borderRadius: 15,
                         }}
                       >
-                        {
-                          appointment.type == "upcoming" ? "Cancel appointment" : "Leave a review"
-                        }
+                        {appointment.type == "upcoming"
+                          ? "Reschedule"
+                          : "Leave a review"}
                       </Text>
                     </TouchableOpacity>
                   </View>
                 )}
-              </TouchableOpacity>
+              </View>
             ))
           )}
         </View>

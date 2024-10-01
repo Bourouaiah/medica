@@ -147,6 +147,7 @@ const appointmentDetailInfo = () => {
               doctorPhoneNumber: phoneNumber,
               doctorEmail: email,
               doctorSpeciality: speciality,
+              doctorWorkStation: workStation,
               type: "upcoming",
             }),
           });

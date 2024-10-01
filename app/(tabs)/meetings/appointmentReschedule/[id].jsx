@@ -181,7 +181,7 @@ const appointmentReschedulePage = () => {
       >
         <StatusBar barStyle="dark-content" />
         <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <AntDesign name="arrowleft" size={24} color="black" />
           </TouchableOpacity>
           <Text style={{ fontWeight: "bold", fontSize: 18 }}>
