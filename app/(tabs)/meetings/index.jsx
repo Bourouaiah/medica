@@ -185,7 +185,7 @@ const index = () => {
                 source={require("../../../assets/images/loading-doctor.gif")}
               />
             </View>
-          ) : filteredAppointments?.length === 0 ? (
+          ) : filteredAppointments?.length === 0 || !appointments ? (
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               <Image
                 style={{ width: 200, height: 200 }}
@@ -203,6 +203,7 @@ const index = () => {
                   paddingHorizontal: 10,
                   paddingVertical: 20,
                   borderRadius: 15,
+                  marginVertical: 5
                 }}
                 key={index}
               >
@@ -300,6 +301,8 @@ const index = () => {
                           selectedPackage: appointment.selectedPackage,
                           doctorEmail: appointment.doctorEmail,
                           doctorWorkStation: appointment.doctorWorkStation,
+                          dateInMilliseconds: appointment.dateInMilliseconds,
+                          timeInMilliseconds: appointment.timeInMilliseconds,
                         }
                       )
                     }

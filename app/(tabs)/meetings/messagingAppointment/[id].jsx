@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
@@ -20,6 +20,7 @@ const messagingAppointmentPage = () => {
   const { userDoc } = useFetchUser();
 
   const [loading, setLoading] = useState(false);
+  const [isBeforeAppointment, setIsBeforeAppointment] = useState(true);
 
   const {
     doctorWorkStation,
@@ -33,7 +34,28 @@ const messagingAppointmentPage = () => {
     formattedTime,
     problem,
     selectedPackage,
+    dateInMilliseconds,
+    timeInMilliseconds,
   } = route.params;
+
+
+  useEffect(() => {
+    if (
+      new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }) >= formattedTime &&
+      new Date().toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }) >= formattedDate
+    ) {
+      setIsBeforeAppointment(false);
+    }
+  }, [dateInMilliseconds, timeInMilliseconds]);
+
   return (
     <SafeAreaView
       style={{
@@ -195,10 +217,11 @@ const messagingAppointmentPage = () => {
         <View style={{ marginTop: 30 }}>
           <TouchableOpacity
             style={{
-              backgroundColor: "#246BFD",
+              backgroundColor: isBeforeAppointment ? "#B0C4DE" : "#246BFD",
               padding: 10,
               borderRadius: 15,
             }}
+            disabled={isBeforeAppointment}
           >
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />

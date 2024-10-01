@@ -111,15 +111,22 @@ const appointmentDetailInfo = () => {
         month: "long",
         year: "numeric",
       });
+      const dateInMilliseconds = dateOfAppointment.getTime();
+
       const formattedTime = timeOfAppointment.toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
       });
+
+      const timeInMilliseconds = timeOfAppointment.getTime();
+
       await updateDoc(doc(db, "doctors", doctorId), {
         appointments: arrayUnion({
           appointmentId,
           formattedDate,
+          dateInMilliseconds,
+          timeInMilliseconds,
           formattedTime,
           duratuion,
           selectedPackage,
@@ -138,6 +145,8 @@ const appointmentDetailInfo = () => {
               appointmentId,
               formattedDate,
               formattedTime,
+              dateInMilliseconds,
+              timeInMilliseconds,
               duratuion,
               selectedPackage,
               problem,
@@ -557,7 +566,11 @@ const appointmentDetailInfo = () => {
         </View>
         <View style={{ marginTop: 30 }}>
           <TouchableOpacity
-            style={{ backgroundColor: "#246BFD", padding: 10, borderRadius: 15 }}
+            style={{
+              backgroundColor: "#246BFD",
+              padding: 10,
+              borderRadius: 15,
+            }}
             onPress={handleSubmit}
           >
             {loading ? (
