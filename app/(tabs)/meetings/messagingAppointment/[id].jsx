@@ -18,7 +18,7 @@ const messagingAppointmentPage = () => {
   const route = useRoute();
 
   const { userDoc } = useFetchUser();
-  
+
   const {
     appointmentId,
     appointmentMessages,
@@ -34,7 +34,6 @@ const messagingAppointmentPage = () => {
     formattedTime,
     problem,
     selectedPackage,
-    dateInMilliseconds,
     timeInMilliseconds,
   } = route.params;
 
@@ -42,23 +41,19 @@ const messagingAppointmentPage = () => {
   const [isBeforeAppointment, setIsBeforeAppointment] = useState(true);
   const [isAfterAppointment, setIsAfterAppointment] = useState(false);
 
-
   useEffect(() => {
-    if (
-      new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      }) >= formattedTime &&
-      new Date().toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      }) >= formattedDate
-    ) {
+    const now = new Date().getTime();
+    const appointmentStartTime = timeInMilliseconds;
+    const appointmentEndTime = appointmentStartTime + duratuion * 60 * 1000;
+
+    if (now >= appointmentStartTime && now <= appointmentEndTime) {
       setIsBeforeAppointment(false);
+      setIsAfterAppointment(false);
+    } else if (now > appointmentEndTime) {
+      setIsBeforeAppointment(false);
+      setIsAfterAppointment(true);
     }
-  }, [dateInMilliseconds, timeInMilliseconds]);
+  }, [timeInMilliseconds, duratuion]);
 
   return (
     <SafeAreaView
@@ -221,12 +216,20 @@ const messagingAppointmentPage = () => {
         <View style={{ marginTop: 30 }}>
           <TouchableOpacity
             style={{
-              backgroundColor: isBeforeAppointment ? "#B0C4DE" : "#246BFD",
+              backgroundColor: "#246BFD",
               padding: 10,
               borderRadius: 15,
             }}
-            onPress={() => navigation.navigate("appointmentMessages/[id]", { appointmentId, doctorId, doctorName, doctorEmail, appointmentMessages })}
-            // disabled={isBeforeAppointment}
+            onPress={() =>
+              navigation.navigate("appointmentMessages/[id]", {
+                appointmentId,
+                doctorId,
+                doctorName,
+                doctorEmail,
+                appointmentMessages,
+              })
+            }
+            disabled={isBeforeAppointment || isAfterAppointment}
           >
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />
@@ -238,7 +241,13 @@ const messagingAppointmentPage = () => {
                   fontWeight: "bold",
                 }}
               >
-                Message (Start on {formattedDate} at {formattedTime})
+                {isAfterAppointment ? (
+                  <Text>Appointment Ended</Text>
+                ) : (
+                  <Text>
+                    Message (Start on {formattedDate} at {formattedTime})
+                  </Text>
+                )}
               </Text>
             )}
           </TouchableOpacity>

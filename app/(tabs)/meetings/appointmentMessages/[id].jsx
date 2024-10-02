@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import useFetchUser from "../../../../custom-hooks/useFetchUser";
 import { db } from "../../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -213,7 +213,7 @@ const appointmentMessagesPage = () => {
           textAlign: "center",
           paddingVertical: 4,
           paddingHorizontal: 8,
-          borderRadius: 10
+          borderRadius: 10,
         }}
       >
         Session started
@@ -334,7 +334,7 @@ const appointmentMessagesPage = () => {
             {loading ? (
               <ActivityIndicator size="small" color="white" />
             ) : (
-              <FontAwesome5 name="microphone" size={22} color="white" />
+              <Ionicons name="send" size={18} color="white" />
             )}
           </TouchableOpacity>
         </View>

@@ -111,7 +111,6 @@ const appointmentDetailInfo = () => {
         month: "long",
         year: "numeric",
       });
-      const dateInMilliseconds = dateOfAppointment.getTime();
 
       const formattedTime = timeOfAppointment.toLocaleTimeString([], {
         hour: "2-digit",
@@ -125,7 +124,6 @@ const appointmentDetailInfo = () => {
         appointments: arrayUnion({
           appointmentId,
           formattedDate,
-          dateInMilliseconds,
           timeInMilliseconds,
           formattedTime,
           duratuion,
@@ -145,7 +143,6 @@ const appointmentDetailInfo = () => {
               appointmentId,
               formattedDate,
               formattedTime,
-              dateInMilliseconds,
               timeInMilliseconds,
               duratuion,
               selectedPackage,
