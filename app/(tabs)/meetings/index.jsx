@@ -288,6 +288,7 @@ const index = () => {
                             : "videoCallAppointment/[id]"
                         }`,
                         {
+                          doctorId: appointment.doctorId,
                           doctorEmail: appointment.doctorEmail,
                           doctorName: appointment.doctorName,
                           doctorPhoneNumber: appointment.doctorPhoneNumber,
@@ -303,6 +304,8 @@ const index = () => {
                           doctorWorkStation: appointment.doctorWorkStation,
                           dateInMilliseconds: appointment.dateInMilliseconds,
                           timeInMilliseconds: appointment.timeInMilliseconds,
+                          appointmentId: appointment.appointmentId,
+                          appointmentMessages: appointment.appointmentMessages,
                         }
                       )
                     }

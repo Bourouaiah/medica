@@ -8,7 +8,7 @@ const useFetchUser = () => {
     const { doctors, userDoc, setUserDoc, setLoading } = useUserContext();
 
     useEffect(() => {
-         const fetchData = async () => {
+        const fetchData = async () => {
             onAuthStateChanged(auth, async (user) => {
                 if (user) {
                     const userQuery = query(
@@ -16,7 +16,7 @@ const useFetchUser = () => {
                         where("email", "==", user.email)
                     );
                     const userSnapshot = await getDocs(userQuery);
-                    
+
                     if (!userSnapshot.empty) {
                         userSnapshot.forEach((doc) => {
                             setUserDoc(doc.data());
@@ -27,7 +27,7 @@ const useFetchUser = () => {
                             where("email", "==", user.email)
                         );
                         const patientSnapshot = await getDocs(patientQuery);
-                        
+
                         if (!patientSnapshot.empty) {
                             patientSnapshot.forEach((doc) => {
                                 setUserDoc(doc.data());
@@ -48,6 +48,6 @@ const useFetchUser = () => {
     }, [setLoading, setUserDoc, doctors]);
 
     return { userDoc };
-};
+};  
 
 export default useFetchUser;

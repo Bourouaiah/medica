@@ -18,12 +18,12 @@ const messagingAppointmentPage = () => {
   const route = useRoute();
 
   const { userDoc } = useFetchUser();
-
-  const [loading, setLoading] = useState(false);
-  const [isBeforeAppointment, setIsBeforeAppointment] = useState(true);
-
+  
   const {
+    appointmentId,
+    appointmentMessages,
     doctorWorkStation,
+    doctorId,
     doctorEmail,
     doctorName,
     doctorPhoneNumber,
@@ -37,6 +37,10 @@ const messagingAppointmentPage = () => {
     dateInMilliseconds,
     timeInMilliseconds,
   } = route.params;
+
+  const [loading, setLoading] = useState(false);
+  const [isBeforeAppointment, setIsBeforeAppointment] = useState(true);
+  const [isAfterAppointment, setIsAfterAppointment] = useState(false);
 
 
   useEffect(() => {
@@ -221,7 +225,8 @@ const messagingAppointmentPage = () => {
               padding: 10,
               borderRadius: 15,
             }}
-            disabled={isBeforeAppointment}
+            onPress={() => navigation.navigate("appointmentMessages/[id]", { appointmentId, doctorId, doctorName, doctorEmail, appointmentMessages })}
+            // disabled={isBeforeAppointment}
           >
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />
