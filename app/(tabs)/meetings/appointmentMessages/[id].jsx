@@ -4,8 +4,9 @@ import {
   StatusBar,
   TouchableOpacity,
   TextInput,
+  ScrollView,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome5 } from "@expo/vector-icons";
@@ -14,6 +15,9 @@ import { db } from "../../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import Toast from "react-native-toast-message";
 import { ActivityIndicator } from "react-native";
+
+import * as DocumentPicker from "expo-document-picker";
+import * as ImagePicker from "expo-image-picker";
 
 const appointmentMessagesPage = () => {
   const route = useRoute();
@@ -40,6 +44,40 @@ const appointmentMessagesPage = () => {
       }
     }
   }, [userDoc, appointmentId]);
+
+  const handleDocumentSelection = async () => {
+    try {
+      const result = await DocumentPicker.getDocumentAsync({});
+      if (result.type === "success") {
+        console.log("Document URI:", result.uri);
+      }
+    } catch (err) {
+      console.error("Error picking document:", err);
+    }
+  };
+
+  const openCamera = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status === "granted") {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+      });
+      if (!result.canceled) {
+        console.log("Camera image URI:", result.uri);
+      }
+    } else {
+      console.log("Camera permission denied");
+    }
+  };
+
+  const inputRef = useRef(null);
+
+  const handleEmojiPress = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
 
   const handleSubmit = async () => {
     if (message == "") {
@@ -75,7 +113,11 @@ const appointmentMessagesPage = () => {
               senderId: userDoc.patientId,
               senderName: userDoc.name,
               text: message,
-              timestamp: new Date(),
+              timestamp: new Date().toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: true,
+              }),
             });
 
             const updatedAppointments = [...existingAppointments];
@@ -103,7 +145,11 @@ const appointmentMessagesPage = () => {
                   senderId: doctorId,
                   senderName: userDoc.name,
                   text: message,
-                  timestamp: new Date(),
+                  timestamp: new Date().toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  }),
                 });
 
                 const updatedDoctorAppointments = [...doctorAppointments];
@@ -159,16 +205,72 @@ const appointmentMessagesPage = () => {
         </TouchableOpacity>
         <Text style={{ fontWeight: "bold", fontSize: 18 }}>{doctorName}</Text>
       </View>
-      <View style={{ flex: 1, marginBottom: 60 }}>
-        {messages.map((msg, index) => (
-          <View key={index} style={{ marginVertical: 5 }}>
-            <Text style={{ fontWeight: "bold" }}>{msg.senderName}:</Text>
-            <Text>{msg.text}</Text>
-          </View>
-        ))}
-      </View>
+      <Text
+        style={{
+          marginTop: 10,
+          backgroundColor: "#EEEEEE",
+          color: "#717070",
+          textAlign: "center",
+          paddingVertical: 4,
+          paddingHorizontal: 8,
+          borderRadius: 10
+        }}
+      >
+        Session started
+      </Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps={"always"}
+        style={{ flex: 1, marginBottom: 40, marginTop: 10 }}
+      >
+        <View style={{ flex: 1, marginBottom: 40 }}>
+          {messages.map((msg, index) => (
+            <View key={index} style={{ marginVertical: 5 }}>
+              {msg.senderId == userDoc.patientId ||
+              msg.senderId == userDoc.doctorId ? (
+                <View
+                  style={{
+                    backgroundColor: "#246BFD",
+                    padding: 10,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    borderRadius: 15,
+                  }}
+                >
+                  <Text style={{ fontWeight: "bold", color: "white", flex: 1 }}>
+                    {msg.text}
+                  </Text>
+                  <Text style={{ fontSize: 10, color: "white" }}>
+                    {msg.timestamp}
+                  </Text>
+                </View>
+              ) : (
+                <View
+                  style={{
+                    backgroundColor: "#F5F5F5",
+                    padding: 10,
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    borderRadius: 15,
+                  }}
+                >
+                  <Text style={{ fontWeight: "bold", color: "black", flex: 1 }}>
+                    {msg.text}
+                  </Text>
+                  <Text style={{ fontSize: 10, color: "black" }}>
+                    {msg.timestamp}
+                  </Text>
+                </View>
+              )}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
       <View
         style={{
+          backgroundColor: "white",
           flexDirection: "row",
           alignItems: "center",
           gap: 8,
@@ -196,10 +298,11 @@ const appointmentMessagesPage = () => {
               flex: 1,
             }}
           >
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleEmojiPress}>
               <FontAwesome5 name="smile" size={24} color="#A0A0A0" />
             </TouchableOpacity>
             <TextInput
+              ref={inputRef}
               style={{ flex: 1 }}
               placeholder="Type a message ..."
               value={message}
@@ -208,10 +311,10 @@ const appointmentMessagesPage = () => {
             />
           </View>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 10 }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={handleDocumentSelection}>
               <Entypo name="attachment" size={22} color="#A0A0A0" />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={openCamera}>
               <FontAwesome5 name="camera" size={22} color="#A0A0A0" />
             </TouchableOpacity>
           </View>
