@@ -220,16 +220,24 @@ const messagingAppointmentPage = () => {
               padding: 10,
               borderRadius: 15,
             }}
-            onPress={() =>
-              navigation.navigate("appointmentMessages/[id]", {
-                appointmentId,
-                doctorId,
-                doctorName,
-                doctorEmail,
-                appointmentMessages,
-              })
-            }
-            disabled={isBeforeAppointment || isAfterAppointment}
+            onPress={() => {
+              if (isAfterAppointment) {
+                navigation.navigate("writeReview/[id]", {
+                  doctorId,
+                  doctorName,
+                  doctorProfilePicture,
+                });
+              } else {
+                navigation.navigate("appointmentMessages/[id]", {
+                  appointmentId,
+                  doctorId,
+                  doctorName,
+                  doctorEmail,
+                  appointmentMessages,
+                });
+              }
+            }}
+            disabled={isBeforeAppointment}
           >
             {loading ? (
               <ActivityIndicator size="small" color="#ffffff" />
@@ -242,7 +250,7 @@ const messagingAppointmentPage = () => {
                 }}
               >
                 {isAfterAppointment ? (
-                  <Text>Appointment Ended</Text>
+                  <Text>Appointment Ended, leave a review</Text>
                 ) : (
                   <Text>
                     Message (Start on {formattedDate} at {formattedTime})

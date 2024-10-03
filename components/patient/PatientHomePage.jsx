@@ -314,6 +314,8 @@ const PatientHomePage = () => {
                     certificate2: doctor.certificate2,
                     certificate3: doctor.certificate3,
                     certificate4: doctor.certificate4,
+                    appointments: doctor.appointments,
+                    reviews: doctor.reviews,
                   })
                 }
               >
@@ -386,9 +388,17 @@ const PatientHomePage = () => {
                         size={18}
                         color="#246BFD"
                       />
-                      <Text>{doctor.rating ? `${doctor.rating}` : "--"}</Text>
                       <Text>
-                        ({doctor.reviews ? `${doctor.rating}` : "--"} reviews)
+                        {doctor.reviews
+                          ? `${doctor.reviews?.reduce(
+                              (sum, review) => sum + parseFloat(review.rating),
+                              0
+                            ) / doctor.reviews?.length}`
+                          : "--"}
+                      </Text>
+                      <Text>
+                        ({doctor.reviews ? `${doctor.reviews.length}` : "--"}{" "}
+                        reviews)
                       </Text>
                     </View>
                   </View>

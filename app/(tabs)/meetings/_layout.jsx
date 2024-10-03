@@ -9,6 +9,7 @@ export default function HomeStack() {
       <Stack.Screen name="voiceCallAppointment/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="videoCallAppointment/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="appointmentMessages/[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="writeReview/[id]" options={{ headerShown: false }} />
     </Stack>
   );
 }

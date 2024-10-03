@@ -47,6 +47,7 @@ const Login = () => {
         text2: "Please fill in the required data!",
       });
     } else {
+      setLoading(true);
       signInWithEmailAndPassword(auth, email, password)
         .then(() => {
           setLoading(true);
@@ -58,9 +59,6 @@ const Login = () => {
         .then(() => {
           navigation.navigate("(tabs)");
         })
-        .finally(() => {
-          setLoading(false);
-        })
         .catch((error) => {
           console.log(error);
           Toast.show({
@@ -69,6 +67,9 @@ const Login = () => {
             text1: "Error!",
             text2: "Email or password are wrong!",
           });
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
@@ -193,7 +194,7 @@ const Login = () => {
             alignItems: "center",
             justifyContent: "center",
             gap: 5,
-            marginVertical: 30
+            marginVertical: 30,
           }}
         >
           <Text style={{ color: "#424242" }}>Don't have an account?</Text>

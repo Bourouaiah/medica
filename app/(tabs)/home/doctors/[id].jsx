@@ -9,11 +9,7 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  AntDesign,
-  FontAwesome6,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { AntDesign, FontAwesome6, MaterialIcons } from "@expo/vector-icons";
 
 const doctorDetailPage = () => {
   const navigation = useNavigation();
@@ -35,7 +31,15 @@ const doctorDetailPage = () => {
     certificate2,
     certificate3,
     certificate4,
+    appointments,
+    reviews,
   } = route.params;
+
+  const totalRating = reviews?.reduce(
+    (sum, review) => sum + parseFloat(review.rating),
+    0
+  );
+  const averageRating = totalRating / reviews?.length;
 
   return (
     <SafeAreaView
@@ -158,7 +162,7 @@ const doctorDetailPage = () => {
             <Text
               style={{ color: "#246BFD", fontWeight: "bold", fontSize: 16 }}
             >
-              5000
+              {appointments ? appointments?.length : "00"}
             </Text>
             <Text style={{ color: "#424242", textAlign: "center" }}>
               patients
@@ -202,7 +206,7 @@ const doctorDetailPage = () => {
             <Text
               style={{ color: "#246BFD", fontWeight: "bold", fontSize: 16 }}
             >
-              4.8
+              {reviews ? averageRating : "--"}
             </Text>
             <Text style={{ color: "#424242", textAlign: "center" }}>
               rating
@@ -224,7 +228,7 @@ const doctorDetailPage = () => {
             <Text
               style={{ color: "#246BFD", fontWeight: "bold", fontSize: 16 }}
             >
-              4789
+              {reviews ? reviews?.length : "--"}
             </Text>
             <Text style={{ color: "#424242", textAlign: "center" }}>
               reviews
@@ -240,7 +244,9 @@ const doctorDetailPage = () => {
           <Text style={{ color: "#424242" }}>{phoneNumber}</Text>
         </View>
         <View>
-          <Text style={{ fontWeight: "bold", fontSize: 18 }}>BaridiMob rip code</Text>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>
+            BaridiMob rip code
+          </Text>
           <Text style={{ color: "#424242" }}>{baridiMobRip}</Text>
         </View>
         <View style={{ marginVertical: 20 }}>
@@ -253,7 +259,73 @@ const doctorDetailPage = () => {
         </View>
         <View>
           <Text style={{ fontWeight: "bold", fontSize: 18 }}>Reviews</Text>
-          <Text>No reviews for now!</Text>
+          {reviews?.length > 0 ? (
+            reviews.map((item, index) => (
+              <View style={{ marginVertical: 10, gap: 10 }} key={index}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: 10,
+                    }}
+                  >
+                    {!item.reviewerProfilePicture ? (
+                      <Image
+                        style={{ width: 30, height: 30, borderRadius: 200 }}
+                        source={require("../../../../assets/images/empty-profile-picture.png")}
+                      />
+                    ) : (
+                      <Image
+                        style={{ width: 50, height: 50, borderRadius: 200 }}
+                        source={{ uri: item.reviewerProfilePicture }}
+                      />
+                    )}
+                    <Text style={{ fontWeight: "bold", fontSize: 16 }}>
+                      {item.reviewerName}
+                    </Text>
+                  </View>
+                  <View>
+                    <Text
+                      style={{
+                        color: "#246BFD",
+                        paddingVertical: 3,
+                        paddingHorizontal: 6,
+                        borderColor: "#246BFD",
+                        borderWidth: 2,
+                        borderStyle: "solid",
+                        borderRadius: 15,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <AntDesign name="star" size={14} color="#246BFD" />
+                      <Text style={{ fontWeight: "bold" }}> {item.rating}</Text>
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  <Text style={{ color: "#212121" }}>{item.review}</Text>
+                </View>
+                <View>
+                  <Text style={{ color: "#616161", fontSize: 12 }}>
+                    {item.formattedReviewDate}, {item.formattedReviewTime}
+                  </Text>
+                </View>
+              </View>
+            ))
+          ) : (
+            <Text style={{ color: "#616161", marginVertical: 10 }}>
+              No reviews for now
+            </Text>
+          )}
         </View>
         <View style={{ marginTop: 50 }}>
           <TouchableOpacity
@@ -265,7 +337,7 @@ const doctorDetailPage = () => {
                 profilePicture,
                 email,
                 speciality,
-                workStation
+                workStation,
               })
             }
           >
