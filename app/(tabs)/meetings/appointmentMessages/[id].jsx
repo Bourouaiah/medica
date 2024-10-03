@@ -25,8 +25,13 @@ const appointmentMessagesPage = () => {
 
   const { userDoc } = useFetchUser();
 
-  const { appointmentId, doctorId, doctorName, doctorProfilePicture } =
-    route.params;
+  const currentUserId = userDoc.patientId
+    ? userDoc.patientId
+    : userDoc.doctorId
+    ? userDoc.doctorId
+    : null;
+
+  const { appointmentId, doctorId, patientId, doctorName } = route.params;
 
   const [message, setMessage] = useState("");
 
@@ -90,7 +95,7 @@ const appointmentMessagesPage = () => {
     } else {
       setLoading(true);
       try {
-        const patientDocRef = doc(db, "patients", userDoc.patientId);
+        const patientDocRef = doc(db, "patients", patientId);
         const doctorDocRef = doc(db, "doctors", doctorId);
         const patientDocSnap = await getDoc(patientDocRef);
         const doctorDocSnap = await getDoc(doctorDocRef);
@@ -110,7 +115,7 @@ const appointmentMessagesPage = () => {
             };
 
             updatedAppointment.messages.push({
-              senderId: userDoc.patientId,
+              senderId: currentUserId,
               senderName: userDoc.name,
               text: message,
               timestamp: new Date().toLocaleTimeString("en-US", {
@@ -142,7 +147,7 @@ const appointmentMessagesPage = () => {
                 };
 
                 updatedDoctorAppointment.messages.push({
-                  senderId: doctorId,
+                  senderId: currentUserId,
                   senderName: userDoc.name,
                   text: message,
                   timestamp: new Date().toLocaleTimeString("en-US", {

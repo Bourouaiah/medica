@@ -6,7 +6,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 
 import userFetchUser from "../../../custom-hooks/useFetchUser";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  FontAwesome,
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { useUserContext } from "../../../UserContext";
 import { auth } from "../../../firebase";
 import { CommonActions, useNavigation } from "@react-navigation/native";
@@ -135,13 +142,209 @@ const index = () => {
                 <MaterialIcons name="edit" size={20} color="white" />
               </TouchableOpacity>
             </View>
-            <View style={{ alignItems: "center", gap: 10 }}>
+            <View style={{ alignItems: "center", gap: 10, marginBottom: 20 }}>
               <Text style={{ fontWeight: "bold", fontSize: 16 }}>
                 {userDoc?.name}
               </Text>
               <Text>{userDoc?.phoneNumber}</Text>
             </View>
-            <View>
+            <View
+              style={{
+                paddingTop: 20,
+                borderTopColor: "#EEEEEE",
+                borderTopWidth: 1,
+                borderTopStyle: "solid",
+                gap: 20,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <AntDesign name="user" size={24} color="black" />
+                  <Text>Edit profile</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <MaterialIcons
+                    name="notifications-none"
+                    size={24}
+                    color="black"
+                  />
+                  <Text>Notifications</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <MaterialIcons name="payment" size={24} color="black" />
+                  <Text>Payment</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <MaterialIcons name="security" size={24} color="black" />
+                  <Text>Security</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <FontAwesome name="language" size={24} color="black" />
+                  <Text>Language</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <MaterialIcons name="dark-mode" size={24} color="black" />
+                  <Text>Dark mode</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <Ionicons name="help-circle-outline" size={24} color="black" />
+                  <Text>Help center</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <AntDesign name="addusergroup" size={24} color="black" />
+                  <Text>Invite friends</Text>
+                </View>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="black"
+                />
+              </View>
               <TouchableOpacity
                 style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
                 onPress={handleLogout}

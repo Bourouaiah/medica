@@ -21,9 +21,9 @@ const messagingAppointmentPage = () => {
 
   const {
     appointmentId,
-    appointmentMessages,
     doctorWorkStation,
     doctorId,
+    patientId,
     doctorEmail,
     doctorName,
     doctorPhoneNumber,
@@ -232,8 +232,7 @@ const messagingAppointmentPage = () => {
                   appointmentId,
                   doctorId,
                   doctorName,
-                  doctorEmail,
-                  appointmentMessages,
+                  patientId
                 });
               }
             }}
